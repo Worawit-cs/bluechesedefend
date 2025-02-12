@@ -1,5 +1,6 @@
 package com.example;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -26,8 +27,16 @@ public class GamePanel extends JPanel{
         this.height = height;
         this.xpos = xpos;
         this.ypos = ypos;
-        // importImage();
-        // loadAnimations();
+        importImage();
+        loadAnimations();
+        setPanelSize();
+    }
+
+    private void setPanelSize(){
+        Dimension size = new Dimension(1920,1080);
+        setPreferredSize(size); // เซ็ทหน้าต่างให้มีขอบเขตโดยที่ไม่รสมตัวขอบของwindow
+        setMaximumSize(size); // ไม่ต้องสนใจทำเผื่อไว้เฉยๆตัวที่ใช้จริงคือ preferred
+        setMinimumSize(size); // ไม่ต้องสนใจทำเผื่อไว้เฉยๆตัวที่ใช้จริงคือ preferred
     }
     
     // Method change xDelta on our KeyBoard in class KeyBoardInputs
@@ -57,46 +66,46 @@ public class GamePanel extends JPanel{
         return new int[]{width, height};
     }
 
-    // protected void importImage(){
-    //     InputStream is = getClass().getResourceAsStream("/Asset/Monster/dr_prakarn.png");
+    public void importImage(){
+        InputStream is = getClass().getResourceAsStream("/Asset/Monster/dr_prakarn.png");
 
-    //     if(is == null){
-    //         System.out.println("Cannot find your Resorces!");
-    //     }
+        if(is == null){
+            System.out.println("Cannot find your Resorces!");
+        }
 
-    //     try {
-    //         img = ImageIO.read(is);
-    //     } catch (IOException e) {
-    //         // TODO Auto-generated catch block
-    //         e.printStackTrace();
-    //     }
-    // }
+        try {
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-    // protected void loadAnimations(){
-    //     moveMentAni = new BufferedImage[4];
+    public void loadAnimations(){
+        moveMentAni = new BufferedImage[4];
 
-    //     for(int i=0;i<moveMentAni.length;i++){
-    //         moveMentAni[i] = img.getSubimage(i*128, 0, 128, 128);
-    //     }
-    // }
+        for(int i=0;i<moveMentAni.length;i++){
+            moveMentAni[i] = img.getSubimage(i*128, 0, 128, 128);
+        }
+    }
 
-    // protected void updateAnimation(){
-    //     aniTick++;
-    //     if(aniTick>=aniSpeed){
-    //         aniTick=0;
-    //         aniIndex++;
-    //         if(aniIndex >= moveMentAni.length){
-    //             aniIndex = 0;
-    //         }
-    //     }
-    // }
+    public void updateAnimation(){
+        aniTick++;
+        if(aniTick>=aniSpeed){
+            aniTick=0;
+            aniIndex++;
+            if(aniIndex >= moveMentAni.length){
+                aniIndex = 0;
+            }
+        }
+    }
 
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        // updateAnimation();
+        updateAnimation();
         
-        // g.drawImage(moveMentAni[aniIndex],xpos, ypos,64,64, null);
-        g.fillRect(xpos, ypos, width, height);
+        g.drawImage(moveMentAni[aniIndex],xpos, ypos,64,64, null);
+        // g.fillRect(xpos, ypos, width, height);
     }
 }

@@ -2,8 +2,6 @@ package com.example;
 
 import Entity.Dog;
 import Service.Monster;
-import inputs.KeyBoardInputs;
-import inputs.MouseInputs;
 
 public class Game implements Runnable{
     private GameWindow gameWindow;

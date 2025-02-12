@@ -7,7 +7,7 @@ public class MonsterTemplate {
     private int ID;
     private int tier;
     private int xpos = 100,ypos = 100;
-    private float xDir =1.0f,yDir=1.0f;
+    private float xDir =2.0f,yDir=2.0f;
 
     public MonsterTemplate(){ // add image parameter?
 
