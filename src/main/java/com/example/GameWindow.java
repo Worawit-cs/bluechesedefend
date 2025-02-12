@@ -2,6 +2,7 @@ package com.example;
 
 import javax.swing.JFrame;
 public class GameWindow extends JFrame {
+    // list of gamePanel ?
 
     public GameWindow(){
 
@@ -13,9 +14,5 @@ public class GameWindow extends JFrame {
 
         //setUndecorated(true); -- make Undecorated
         setVisible(true); // -- visible frame
-    }
-
-    public void addGamePanel(GamePanel gamePanel){
-        add(gamePanel); // add image
     }
 }

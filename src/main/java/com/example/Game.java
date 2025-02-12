@@ -1,6 +1,6 @@
 package com.example;
 
-import Entity.Dog;
+import Entity.Dr_Parkarn;
 import Service.Monster;
 
 public class Game implements Runnable{
@@ -14,7 +14,9 @@ public class Game implements Runnable{
         MonsterService = new Monster(gameWindow);
         startGameLoop();
         
-        MonsterService.spawn(new Dog());
+        MonsterService.spawn(new Dr_Parkarn());
+        GamePanel g = new GamePanel(110, 110, 315, 350, 3, 6, 10, 10);
+        gameWindow.add(g);
         //MouseInputs mouse = new MouseInputs(gamepanel); // add mouse event for that squre
         //KeyBoardInputs keyboard = new KeyBoardInputs(gamepanel); // add kb event for that squre
     }
