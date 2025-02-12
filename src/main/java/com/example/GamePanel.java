@@ -1,10 +1,12 @@
 package com.example;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -22,14 +24,37 @@ public class GamePanel extends JPanel{
     // private int xDelta = 100, yDelta = 100;
     
 // >>>>>>> a75c4af1cdf92f0815524474d60d6a7080067738
+    // for normal Panel
     public GamePanel(int width, int height, int xpos, int ypos){
-        this.width = width;
-        this.height = height;
         this.xpos = xpos;
         this.ypos = ypos;
-        importImage();
-        loadAnimations();
+        this.width = width;
+        this.height = height;
+
         setPanelSize();
+    }
+    // for Panel with image
+    public GamePanel(int width, int height, int xpos, int ypos, String Accessimg){
+        this(width, height, xpos, ypos);
+        
+        importImage(Accessimg);
+        loadAnimations();
+    }
+
+    public GamePanel(int xpos, int ypos, int width, int height, int row, int column, int spaceX, int spaceY){
+        this.xpos = xpos;
+        this.ypos = ypos;
+
+        JPanel p = new JPanel();
+        p.setLayout(new GridLayout(row, column, spaceX, spaceY));
+        
+        for (int i = 0; i < row*column; i++){
+            JPanel cell = new JPanel();
+            cell.setPreferredSize(new Dimension(width, height));
+            cell.setBackground(Color.RED);
+            p.add(cell);
+        }
+        
     }
 
     private void setPanelSize(){
@@ -40,15 +65,17 @@ public class GamePanel extends JPanel{
     }
     
     // Method change xDelta on our KeyBoard in class KeyBoardInputs
-    public void changexDelta(int value){
+    public int changexDelta(int value){
         this.xpos += value;
         repaint();
+        return xpos;
     }
 
     // Method change yDelta on our KeyBoard in class KeyBoardInputs
-    public void changeyDelta(int value){
+    public int changeyDelta(int value){
         this.ypos += value;
         repaint();
+        return ypos;
     }
 
     // Method change position in class MouseInputs
@@ -62,23 +89,16 @@ public class GamePanel extends JPanel{
         return new int[]{xpos, ypos};
     }
 
-    public int[] getWh(){
-        return new int[]{width, height};
-    }
-
-    public void importImage(){
-        InputStream is = getClass().getResourceAsStream("/Asset/Monster/dr_prakarn.png");
-
-        if(is == null){
-            System.out.println("Cannot find your Resorces!");
-        }
-
+    public void importImage(String Accessimg){
+        
         try {
-            img = ImageIO.read(is);
+            img = ImageIO.read(new File(Accessimg));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        repaint();
     }
 
     public void loadAnimations(){
@@ -93,19 +113,19 @@ public class GamePanel extends JPanel{
         aniTick++;
         if(aniTick>=aniSpeed){
             aniTick=0;
-            aniIndex++;
-            if(aniIndex >= moveMentAni.length){
-                aniIndex = 0;
-            }
+            aniIndex = (aniIndex + 1)%moveMentAni.length;
         }
     }
 
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        updateAnimation();
-        
-        g.drawImage(moveMentAni[aniIndex],xpos, ypos,64,64, null);
-        // g.fillRect(xpos, ypos, width, height);
+
+        if (moveMentAni != null){
+            updateAnimation();
+            g.drawImage(moveMentAni[aniIndex],xpos, ypos, width, height, null);
+        } else{
+            g.fillRect(xpos, ypos, width, height);   
+        }
     }
 }
