@@ -2,10 +2,12 @@ package com.example;
 
 import Entity.Dr_Parkarn;
 import Service.Monster;
+import Template.MonsterTemplate;
 
 public class Game implements Runnable{
     private GameWindow gameWindow;
     private Thread gameThread;
+    private MonsterTemplate monsterPanel = new Dr_Parkarn(); // เราจะทำการเอาpanelของวแต่ละคลาสมาLoopที่นี่เพื่อจะได้ไม่ต้องใช้repaintบ่อยๆ
     private Monster MonsterService;
     private final int FPS_SET = 120;
 
@@ -14,47 +16,49 @@ public class Game implements Runnable{
         MonsterService = new Monster(gameWindow);
         startGameLoop();
         
-        MonsterService.spawn(new Dr_Parkarn());
-        GamePanel g = new GamePanel(110, 110, 315, 350, 3, 6, 10, 10);
-        gameWindow.add(g);
+        MonsterService.spawn(monsterPanel);
         //MouseInputs mouse = new MouseInputs(gamepanel); // add mouse event for that squre
         //KeyBoardInputs keyboard = new KeyBoardInputs(gamepanel); // add kb event for that squre
     }
     private void startGameLoop(){
         gameThread = new Thread(this); //(this) mean Runable target
-        gameThread.start(); // Start the Gmae Loop
+        gameThread.start(); // Start the Game Loop
     }
 
     // GameLoop(Override Method from Runable)
     @Override
     public void run() {
-        double timePerFrame = 1000000000.0/FPS_SET; // Im set time in Nano time
-        long lastFrame = System.nanoTime();
-        long now = System.nanoTime(),lastCheck =System.currentTimeMillis();
-        int frames = 0;
-        // Loop ตัวนี้ทำไดเละเอียดกว่าการloopเพียงแค่milli sec
-        while(true){
-            now = System.nanoTime(); // Recently Time
-            if(System.nanoTime()-lastFrame >= timePerFrame){
-                // gamepanel.repaint(); // Loop Panel infinite (GameLoop) มันจะสร้างตัวpanelใหม่ไปเรื่อยๆ
-                lastFrame = now;
-                frames++;
-            }
-            // check การ แสดงผลของFrame
-            if(System.currentTimeMillis() - lastCheck >= 1000){
-                lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames);
-                frames = 0;
-            }
-           
-            // delay loop
-            try {
-                Thread.sleep(10); // Delay for 1 second (1000 milliseconds)
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    double timePerFrame = 1000000000.0 / FPS_SET; // เวลา per frame ในหน่วย nano
+    long lastFrame = System.nanoTime();
+    long lastCheck = System.currentTimeMillis();
+    int frames = 0;
+    
+    while (true) {
+        long now = System.nanoTime();
+        double deltaTime = (now - lastFrame) / 1e9; // เปลี่ยนเป็นวินาที
+        
+        if (now - lastFrame >= timePerFrame) {
+            // ส่งค่า deltaTime ไปให้ update() เพื่อปรับความเร็วการเคลื่อนที่
+            MonsterService.update(deltaTime);
             
-            MonsterService.update();
+            monsterPanel.getPanel().repaint(); // gamepanelของobj monsterเราก็ไม่ต้องไปrepaint ในคลาสแล้ว
+            lastFrame = now;
+            frames++;
         }
-    }
+        
+        if (System.currentTimeMillis() - lastCheck >= 1000) {
+            lastCheck = System.currentTimeMillis();
+            System.out.println("FPS: " + frames);
+            frames = 0;
+        }
+        
+        // Optional: ให้ thread หยุดสักเล็กน้อยเพื่อประหยัด CPU
+        // try {
+        //     Thread.sleep(1);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        //     }
+        // }
+   }
+}
 }

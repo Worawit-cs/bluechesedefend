@@ -22,7 +22,7 @@ public class MouseInputs implements MouseListener,MouseMotionListener{
     }
 
     public void setAttract(Boolean Attract){
-        this.Attract = Attract;
+        // this.Attract = Attract;
     }
 
     @Override
@@ -33,14 +33,14 @@ public class MouseInputs implements MouseListener,MouseMotionListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (Attract) {
-            gamePanel.setRectPos(e.getX(), e.getY());
-        }
+        // if (Attract) {
+        //     gamePanel.setRectPos(e.getX(), e.getY());
+        // }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Mouse Click!");
+        // System.out.println("Mouse Click!");
     }
 
     @Override

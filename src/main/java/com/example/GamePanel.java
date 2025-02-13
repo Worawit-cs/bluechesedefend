@@ -12,18 +12,19 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
-// <<<<<<< HEAD
+
     // Member data
     private int xpos, ypos, width, height;
     private BufferedImage img;
     private BufferedImage[] moveMentAni;
     private int aniTick,aniIndex,aniSpeed = 15;
     
-    // Method
-// =======
-    // private int xDelta = 100, yDelta = 100;
     
-// >>>>>>> a75c4af1cdf92f0815524474d60d6a7080067738
+
+    // private int xDelta = 100, yDelta = 100;
+
+    public GamePanel(){}
+    
     // for normal Panel
     public GamePanel(int width, int height, int xpos, int ypos){
         this.xpos = xpos;
@@ -33,12 +34,21 @@ public class GamePanel extends JPanel{
 
         setPanelSize();
     }
+
     // for Panel with image
     public GamePanel(int width, int height, int xpos, int ypos, String Accessimg){
-        this(width, height, xpos, ypos);
+        this.width = width;
+        this.height = height;
+        this.xpos = xpos;
+        this.ypos = ypos;
         
+        setPanelSize();
         importImage(Accessimg);
         loadAnimations();
+        
+        /*Now We Dont Need to Repaint in panel We also repaint in Gameloop in class Game */
+        // repaint();
+        
     }
 
     public GamePanel(int xpos, int ypos, int width, int height, int row, int column, int spaceX, int spaceY){
@@ -67,14 +77,14 @@ public class GamePanel extends JPanel{
     // Method change xDelta on our KeyBoard in class KeyBoardInputs
     public int changexDelta(int value){
         this.xpos += value;
-        repaint();
+        // repaint();
         return xpos;
     }
 
     // Method change yDelta on our KeyBoard in class KeyBoardInputs
     public int changeyDelta(int value){
         this.ypos += value;
-        repaint();
+        // repaint();
         return ypos;
     }
 
@@ -82,7 +92,7 @@ public class GamePanel extends JPanel{
     public void setRectPos(int x,int y){
         this.xpos = x;
         this.ypos = y;
-        repaint();
+        // repaint();
     }
 
     public int[] getPos(){
@@ -97,8 +107,7 @@ public class GamePanel extends JPanel{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        repaint();
+        //  repaint();
     }
 
     public void loadAnimations(){
@@ -107,6 +116,7 @@ public class GamePanel extends JPanel{
         for(int i=0;i<moveMentAni.length;i++){
             moveMentAni[i] = img.getSubimage(i*128, 0, 128, 128);
         }
+        // repaint();
     }
 
     public void updateAnimation(){
@@ -120,12 +130,12 @@ public class GamePanel extends JPanel{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        updateAnimation();
 
         if (moveMentAni != null){
-            updateAnimation();
             g.drawImage(moveMentAni[aniIndex],xpos, ypos, width, height, null);
         } else{
-            g.fillRect(xpos, ypos, width, height);   
+            g.fillRect(xpos, ypos, width, height);
         }
     }
 }

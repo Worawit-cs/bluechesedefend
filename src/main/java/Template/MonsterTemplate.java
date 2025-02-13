@@ -10,10 +10,7 @@ public class MonsterTemplate {
     private float speed;
     private int xDelta = 100, yDelta = 100;
     // reward amountReward ...
-    public GamePanel getPanel(){
-        return gamePanel;
-    }
-
+    
     public int[] getWh(){
         return new int[]{gamePanel.getWidth(), gamePanel.getHeight()};
     }
@@ -22,19 +19,20 @@ public class MonsterTemplate {
         return gamePanel.getPos();
     }
     
+    // HP Method
     public void takeDamage(int Damage){
         Health -= Damage;
-
+        
         // if Health <= 0 do something.
     }
-
+    
     public void heal(int value){
         if (Health >= MaxHealth) {return;}
-
+        
         Health += value;
         if (Health > MaxHealth) {Health = MaxHealth;}
     }
-
+    
     public void setInfo(int health, int ID, int tier, float speed, String AccessImg){
         this.MaxHealth = health;
         this.Health = health;
@@ -45,7 +43,10 @@ public class MonsterTemplate {
         // create this entity panel
         gamePanel = new GamePanel(64, 64, 100, 100, AccessImg); // xpos, ypos is entity spawnpoint.
     }
-
+    
+    public GamePanel getPanel(){
+        return gamePanel;
+    }
     public void move(){
 
         /* xDelta, yDelta จะเปลี่ยนแปลงหลังจากการเคลื่อนไหว 

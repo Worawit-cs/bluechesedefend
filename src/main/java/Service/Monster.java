@@ -19,11 +19,15 @@ public class Monster{
     public <t extends MonsterTemplate> void spawn(t mons){
         entity.add(mons);
         gameWindow.add(mons.getPanel());
+        
+        // ใช้เมื่อยามจำเป็น
+        // gameWindow.revalidate();
+        // gameWindow.repaint();
     }
 
-    public void update(){
-        for (int i = 0; i < entity.size(); i++){
-            entity.get(i).move();
+    public void update(double deltaTime){
+        for (MonsterTemplate monster:entity){
+            monster.move();
         }
     }
 }
