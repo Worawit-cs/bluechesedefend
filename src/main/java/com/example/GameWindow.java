@@ -1,5 +1,7 @@
 package com.example;
 
+import java.awt.Component;
+
 import javax.swing.JFrame;
 public class GameWindow extends JFrame {
     // list of gamePanel ?
@@ -14,5 +16,12 @@ public class GameWindow extends JFrame {
 
         //setUndecorated(true); -- make Undecorated
         setVisible(true); // -- visible frame
+    }
+
+    @Override
+    public void remove(Component comp) {
+        // TODO Auto-generated method stub
+        super.remove(comp);
+        this.repaint();
     }
 }
