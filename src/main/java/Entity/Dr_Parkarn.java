@@ -9,9 +9,11 @@ public class Dr_Parkarn extends MonsterTemplate {
     private float speed = 0.5f;
 
     public Dr_Parkarn(){
-        setInfo(Health, tier, speed, AccessImg);
+        setInfo(100, 1, 0.5f, AccessImg);
     }
 
     //@Override   -- modify for each Entity (attack method or other).
     //public void move(){}
 }
+
+

@@ -13,23 +13,23 @@ public class MonsterTemplate {
     private int ID;
 
     private GamePanel gamePanel;
-    private int MaxHealth;
-    private int Health;
-    private int tier;
-    private float speed;
-    private float xDelta = 100, yDelta = 100;
+    private Vector2D position = new Vector2D(100, 100);
     
     private BufferedImage img;
     private BufferedImage[] moveMentAni;
     private int aniTick,aniIndex,aniSpeed = 15;
+
+    EntityInfo info = new EntityInfo(100, 1, 10);
+
+    public EntityInfo GetInfo(){
+        return info;
+    } 
+    
     // reward amountReward ...
     
     public void setInfo(int health, int tier, float speed, String AccessImg){
         this.ID = GobalID;
-        this.MaxHealth = health;
-        this.Health = health;
-        this.tier = tier;
-        this.speed = speed;
+        info = new EntityInfo(health, tier, speed);
         
         GobalID++;
         importImage(AccessImg);
@@ -42,8 +42,8 @@ public class MonsterTemplate {
         return new int[]{gamePanel.getWidth(), gamePanel.getHeight()};
     }
     
-    public float[] getPos(){
-        return new float[]{xDelta, yDelta};
+    public Vector2D getPos(){
+        return position;
     }
     
     public int getID(){
@@ -56,18 +56,15 @@ public class MonsterTemplate {
 
     // HP Method
     public boolean isAlive(){
-        return Health > 0;
+        return info.GetHealth() > 0;
     }
 
     public void takeDamage(int Damage){
-        Health -= Damage;
+       info.DecreaseHealth(Damage);
     }
 
     public void heal(int value){
-        if (Health >= MaxHealth) {return;}
-        
-        Health += value;
-        if (Health > MaxHealth) {Health = MaxHealth;}
+        info.AddHealth(value);
     }
 
     // movement
@@ -77,23 +74,23 @@ public class MonsterTemplate {
         เพราะ gamePanel.changeyxDelta จะ return ตำแหน่ง x/y หลังการเปลี่ยนแปลงมาให้เลย */
         
         //  เดินลงจากบน->ล่าง
-        if(xDelta == 100 && yDelta < 680 && yDelta > 0){
+        if(position.xDelta == 100 && position.yDelta < 680 && position.yDelta > 0){
             //xDelta = gamePanel.changexDelta(0);
-            yDelta += speed;
+            position.MoveYDelta(info.GetSpeed());
         }
         // เดินข้างไปทางขาว->ซ้าย
-        if(yDelta == 680 && xDelta < 1000){
-            xDelta += speed;
+        if(position.yDelta == 680 && position.xDelta < 1000){
+            position.MoveXDelta(info.GetSpeed());
             //gamePanel.changeyDelta(0);
         }
         // เดินขึ้นจากล่าง->บน
-        if(xDelta == 1000 && yDelta > 100){
+        if(position.xDelta == 1000 && position.yDelta > 100){
             //gamePanel.changexDelta(0);
-            yDelta -= speed;
+            position.MoveYDelta(-info.GetSpeed());
         }
         // เดินจากซ้าย->ขวา
-        if( xDelta > 100 && yDelta == 100){
-            xDelta -= speed;
+        if( position.xDelta > 100 && position.yDelta == 100){
+            position.MoveXDelta(-info.GetSpeed());
             //gamePanel.changeyDelta(0);
         }
         
@@ -127,6 +124,72 @@ public class MonsterTemplate {
 
     public void draw(Graphics g){
         updateAnimation();
-        g.drawImage(moveMentAni[aniIndex],(int)xDelta,(int) yDelta, 64, 64, null);
+        g.drawImage(moveMentAni[aniIndex],(int)position.xDelta, (int)position.yDelta, 64, 64, null);
     }
+}
+
+class EntityInfo
+{
+    public EntityInfo(int MaxHealth, int tier, float speed){
+        this.MaxHealth = MaxHealth;
+        this.Health = MaxHealth;
+        this.tier = tier;
+        this.speed = speed;
+    }
+
+    private int MaxHealth;
+    private int Health;
+    private int tier;
+    private float speed;
+
+    public int GetMaxHealth(){
+        return MaxHealth;
+    }
+
+    public int GetHealth(){
+        return Health;
+    }
+    public int GetTier(){
+        return tier;
+    }
+    public float GetSpeed(){
+        return speed;
+    }
+
+    public void AddHealth(int value){
+        Health += value;
+        Health = Math.min(Health, MaxHealth);
+    }
+
+    public void DecreaseHealth(int value){
+        Health -= value;
+        Health = Math.max(Health, 0);
+    }
+}
+
+
+class Vector2D
+{
+    public Vector2D(float xDelta, float yDelta){
+        this.xDelta = xDelta;
+        this.yDelta = yDelta;
+    }
+
+    public void Set(float xDelta, float yDelta)
+    {
+        this.xDelta = xDelta;
+        this.yDelta = yDelta;
+    }
+
+    public void MoveXDelta(float value)
+    {
+        this.xDelta += value;
+    }
+
+    public void MoveYDelta(float value)
+    {
+        this.yDelta += value;
+    }
+
+    float xDelta, yDelta;
 }
