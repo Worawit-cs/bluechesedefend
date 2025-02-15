@@ -10,17 +10,18 @@ public class Render {
     public Render (Game game){
         this.game = game;
     }
-
-    public void render(Graphics G){
+    
+    // ถูกเรียกใช้ที่ GameScreen
+    public void render(Graphics G, GameScreen screen){
         switch (GameStates.gameState) {
             case MENU:
-                game.getMenu().render(G);
+                game.getMenu().render(G, screen);
                 break;
             case PLAYING:
-                game.getPlaying().render(G);
+                game.getPlaying().render(G, screen);
                 break;
             case SETTINGS:
-                game.getSettings().render(G);
+                game.getSettings().render(G, screen);
                 break;
             default:
                 break;

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import com.example.Game;
+import com.example.GameScreen;
+
 import static com.example.GameStates.*;
 import ui.Button;
 
@@ -20,7 +22,7 @@ public class Menu extends GameScene implements SceneMethods{
     private Button PlayButton, SettingButton, QuitButton;
     public Menu(Game game) {
         super(game);
-        importImg("/Assets/BG/Map_demo.png");
+        importImg("/Assets/BG.png");
         initButtons();
     }
 
@@ -31,8 +33,8 @@ public class Menu extends GameScene implements SceneMethods{
     }   
 
     @Override
-    public void render(Graphics G){
-        // G.drawImage(Img ,0 ,0 ,null);
+    public void render(Graphics G, GameScreen screen){
+        //G.drawImage(Img ,0 ,0 ,null); // background for menu
         drawButtons(G);
     }
 
@@ -61,7 +63,6 @@ public class Menu extends GameScene implements SceneMethods{
     public void mouseClicked(int x, int y) {
         if(PlayButton.getBounds().contains(x,y)){
             SetGameState(PLAYING);
-            importImg("/src/Assets/BG/Map_demo.png");
         }
         else if(SettingButton.getBounds().contains(x,y)){
             SetGameState(SETTINGS);

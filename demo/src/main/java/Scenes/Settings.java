@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.example.Game;
+import com.example.GameScreen;
 
 public class Settings extends GameScene implements SceneMethods{
 
@@ -13,7 +14,7 @@ public class Settings extends GameScene implements SceneMethods{
     }
 
     @Override
-    public void render(Graphics G){
+    public void render(Graphics G, GameScreen screen){
         G.setColor(Color.BLUE);
         G.fillRect(0,0,640,640);
         

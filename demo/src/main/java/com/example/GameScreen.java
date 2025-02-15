@@ -33,7 +33,7 @@ public class GameScreen extends JPanel{
     }
 
     private void setPanelSize() {
-		size = new Dimension(640, 640);
+		size = new Dimension(1920, 1080);
 
 		setMinimumSize(size);
 		setPreferredSize(size);
@@ -44,7 +44,7 @@ public class GameScreen extends JPanel{
     public void paintComponent(Graphics G){
         // ฝรั่งบอกว่า เรียก superclass เพื่อให้มันทำพวก graphics ย่อยๆที่เราไม่จำเป็นต้องไปยุ่งเกี่ยวกับมัน
         super.paintComponent(G);
-        game.getRender().render(G);
+        game.getRender().render(G, this);
 
     }
     
