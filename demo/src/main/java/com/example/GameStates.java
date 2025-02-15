@@ -1,4 +1,4 @@
-package Main;
+package com.example;
 
 public enum GameStates { //เก็บค่าคงที่ที่ใช้อยู่ ในที่นี้คือ ฉาก
 

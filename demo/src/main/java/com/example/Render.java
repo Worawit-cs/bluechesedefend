@@ -1,4 +1,4 @@
-package Main;
+package com.example;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

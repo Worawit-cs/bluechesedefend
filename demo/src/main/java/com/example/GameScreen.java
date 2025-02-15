@@ -1,4 +1,4 @@
-package Main;
+package com.example;
 
 import javax.swing.JPanel;
 
