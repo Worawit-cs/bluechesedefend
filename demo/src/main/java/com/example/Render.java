@@ -14,6 +14,9 @@ public class Render {
     // ถูกเรียกใช้ที่ GameScreen
     public void render(Graphics G, GameScreen screen){
         switch (GameStates.gameState) {
+            case MODE:
+                game.getMode().render(G, screen);
+                break;
             case MENU:
                 game.getMenu().render(G, screen);
                 break;

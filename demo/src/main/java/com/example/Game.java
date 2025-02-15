@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import Scenes.Menu;
 import Scenes.Playing;
 import Scenes.Settings;
+import Scenes.Mode;
 import inputs.Keyboard;
 import inputs.Mouse;
 
@@ -23,6 +24,7 @@ public class Game extends JFrame implements Runnable {
     private Menu menu;
     private Playing playing;
     private Settings settings;
+    private Mode mode;
 
     public Game(){
         setSize(1080, 720);
@@ -45,6 +47,7 @@ public class Game extends JFrame implements Runnable {
         menu = new Menu(this);
         playing = new Playing(this);
         settings = new Settings(this);
+        mode = new Mode(this);
     }
 
     
@@ -122,4 +125,6 @@ public class Game extends JFrame implements Runnable {
     public Menu getMenu(){ return menu; }
     public Playing getPlaying(){ return playing; }
     public Settings getSettings(){ return settings; }
+    public Mode getMode(){ return mode; }
+
 }

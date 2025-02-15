@@ -25,7 +25,8 @@ public class Mouse implements MouseListener,MouseMotionListener{
     @Override
     public void mouseMoved(MouseEvent e) {
         switch(GameStates.gameState){
-            case EDIT:
+            case MODE:
+                game.getMode().mouseMoved(e.getX(),e.getY());
                 break;
             case GAME_OVER:
                 break;
@@ -48,7 +49,8 @@ public class Mouse implements MouseListener,MouseMotionListener{
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1){
             switch(GameStates.gameState){
-                case EDIT:
+                case MODE:
+                    game.getMode().mouseClicked(e.getX(),e.getY());
                     break;
                 case GAME_OVER:
                     break;

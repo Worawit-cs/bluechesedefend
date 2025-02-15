@@ -1,6 +1,7 @@
 package Scenes;
 
 import static com.example.GameStates.GAME_OVER;
+import static com.example.GameStates.MENU;
 import static com.example.GameStates.SetGameState;
 
 import java.awt.Color;
@@ -35,13 +36,14 @@ public class Playing extends GameScene implements SceneMethods{
     public void update(){
         monstermanager.update();
 
-        // Test
-        if (System.currentTimeMillis() - tick >= 1000){
+        // Test (Game over)
+        if (System.currentTimeMillis() - tick >= 500){
             if (monstermanager.getAmount() < 10){
                 monstermanager.spawn("Dr_Parkarn");
                 tick = System.currentTimeMillis();
             } else {
-                SetGameState(GAME_OVER);
+                // เพิ่ม clear ข้อมูลออก
+                SetGameState(MENU);
             }
         }
     }

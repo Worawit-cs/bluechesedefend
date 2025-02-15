@@ -27,9 +27,12 @@ public class Menu extends GameScene implements SceneMethods{
     }
 
     public void initButtons(){
-        PlayButton = new Button("Play",250,150,150,50);
-        SettingButton = new Button("Setting",250,250,150,50);
-        QuitButton = new Button("Quit", 250 , 350 , 150 ,50);
+        int w = 200;
+        int h = 75;
+        PlayButton = new Button("Play",640 - (int)w/2,210 - (int)h/2,w,h);
+        SettingButton = new Button("Setting",640 - (int)w/2,360 - (int)h/2,w,h);
+        QuitButton = new Button("Quit", 640 - (int)w/2,510 - (int)h/2 , w ,h);
+
     }   
 
     @Override
@@ -62,7 +65,7 @@ public class Menu extends GameScene implements SceneMethods{
     @Override
     public void mouseClicked(int x, int y) {
         if(PlayButton.getBounds().contains(x,y)){
-            SetGameState(PLAYING);
+            SetGameState(MODE);
         }
         else if(SettingButton.getBounds().contains(x,y)){
             SetGameState(SETTINGS);

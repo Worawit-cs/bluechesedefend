@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 
 public class Monster {
-    private static int GobalID = 0;
+    private static int GlobalID = 0;
     private int ID;
     private EntityInfo info;
     private Vector2D position;
@@ -25,8 +25,8 @@ public class Monster {
     private int aniTick,aniIndex,aniSpeed = 15;
 
     public Monster(int Tier, int health, float speed, String AccessImg){
-        this.ID = GobalID;
-        GobalID++;
+        this.ID = GlobalID;
+        GlobalID++;
 
         info = new EntityInfo(Tier, health, speed);
         position = new Vector2D(100, 100);
