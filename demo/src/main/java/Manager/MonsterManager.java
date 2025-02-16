@@ -50,7 +50,7 @@ public class MonsterManager {
                 break;
         }
 
-        monsters.add(mon);
+        // monsters.add(mon);
     }
 
     // ถูกเรียกใน Playing class
