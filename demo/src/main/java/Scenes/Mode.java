@@ -59,4 +59,11 @@ public class Mode extends GameScene implements SceneMethods{
         }
     }
     
+    @Override
+    public void mouseReleased(int x, int y) {
+    }
+
+    @Override
+    public void mousePressed(int x, int y) {
+    }
 }
