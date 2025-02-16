@@ -15,15 +15,18 @@ import Scenes.Playing;
 
 public class MonsterManager {
     
+    private static ArrayList<Monster> monsters = new ArrayList<Monster>();
     private Playing playing;
-    private Monster testmonster;
-    private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
     public MonsterManager(Playing playing){
         this.playing = playing;
-        spawn("Dr_Parkarn");
+        
     }
 
+    public static ArrayList<Monster> getMonsters(){
+        return monsters;
+    }
+    
     public int getAmount(){
         return monsters.size();
     }

@@ -2,13 +2,7 @@ package Entity;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
-
-
+import Stages.Loader;
 
 // This is Monster Template.
 
@@ -20,6 +14,7 @@ public class Monster {
     private Vector2D position;
 
     // animation info
+    private Loader loader;
     private BufferedImage img;
     private BufferedImage[] moveMentAni;
     private int aniTick,aniIndex,aniSpeed = 15;
@@ -30,31 +25,33 @@ public class Monster {
 
         info = new EntityInfo(Tier, health, speed);
         position = new Vector2D(100, 100);
-        importImage(AccessImg);
+        
+        loader = new Loader();
+        img = loader.loadMap(AccessImg);
         loadAnimations();
     }
 
     public void move(){
-
+        
         // xDelta, yDelta จะเปลี่ยนแปลงหลังจากการเคลื่อนไหว
         
         //  เดินลงจากบน->ล่าง
-        if(position.xDelta == 100 && position.yDelta < 680 && position.yDelta > 0){
+        if(position.getX() == 100 && position.getY() < 680 && position.getY() > 0){
             //xDelta = gamePanel.changexDelta(0);
             position.MoveYDelta(info.GetSpeed());
         }
         // เดินข้างไปทางขาว->ซ้าย
-        if(position.yDelta == 680 && position.xDelta < 1000){
+        if(position.getY() == 680 && position.getX() < 1000){
             position.MoveXDelta(info.GetSpeed());
             //gamePanel.changeyDelta(0);
         }
         // เดินขึ้นจากล่าง->บน
-        if(position.xDelta == 1000 && position.yDelta > 100){
+        if(position.getX() == 1000 && position.getY() > 100){
             //gamePanel.changexDelta(0);
             position.MoveYDelta(-info.GetSpeed());
         }
         // เดินจากซ้าย->ขวา
-        if( position.xDelta > 100 && position.yDelta == 100){
+        if( position.getX() > 100 && position.getY() == 100){
             position.MoveXDelta(-info.GetSpeed());
             //gamePanel.changeyDelta(0);
         }
@@ -78,24 +75,6 @@ public class Monster {
     }
 
     // Animation
-    public void importImage(String AccessImg){
-
-        // monsterImgs[0] = loader.loadMap("/Assets/Monsters/Slime.png");
-        
-        // โหลดรูปภาพโดยใช้จาก class อื่นไม่เป็นเลยใช้คำสั่งมั่วๆมาก่อน
-        try {
-            InputStream is = getClass().getResourceAsStream(AccessImg);
-            if (is == null) {
-                System.err.println("Error: Images not found: " + AccessImg);
-                img = null;
-            }
-            img = ImageIO.read(is);
-        } catch (IOException e) {
-            System.err.println("Error loading map: " + e.getMessage());
-            img = null;
-        }
-    }
-
     public void loadAnimations(){
         moveMentAni = new BufferedImage[4];
 
@@ -114,7 +93,7 @@ public class Monster {
 
     public void draw(Graphics g){
         updateAnimation();
-        g.drawImage(moveMentAni[aniIndex],(int)position.xDelta, (int)position.yDelta, 64, 64, null);
+        g.drawImage(moveMentAni[aniIndex],(int)position.getX(), (int)position.getY(), 64, 64, null);
     }
 } // end Monster Class
 
