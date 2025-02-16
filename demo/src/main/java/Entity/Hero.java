@@ -23,7 +23,7 @@ public class Hero {
     private Monster target = null;
 
     // animation info
-    private Loader loader;
+    private Loader loader = new Loader();
     private BufferedImage imgIdle, imgAttack;
     private BufferedImage[] idleAnim, attckAnim;
     private int aniTick,aniIndex,aniSpeed = 15;
