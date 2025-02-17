@@ -15,7 +15,6 @@ public class Keyboard implements KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_A){
             System.out.println("A is pressed");
         }
-    
     }
 
     @Override

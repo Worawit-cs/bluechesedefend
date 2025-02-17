@@ -59,6 +59,7 @@ public class Mouse implements MouseListener,MouseMotionListener{
                     break;
                 case PLAYING:
                     game.getPlaying().mouseClicked(e.getX(), e.getY());
+                    game.getPlaying().getAction().mouseClicked(e.getX(), e.getY());
                     break;
                 case SETTINGS:
                     game.getSettings().mouseClicked(e.getX(), e.getY());

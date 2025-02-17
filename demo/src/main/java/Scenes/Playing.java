@@ -13,6 +13,7 @@ import Entity.Hero;
 import Manager.HeroManager;
 import Manager.MonsterManager;
 import Stages.Loader;
+import ui.Action;
 
 public class Playing extends GameScene implements SceneMethods{
 
@@ -20,6 +21,7 @@ public class Playing extends GameScene implements SceneMethods{
     private Loader loader;
     private BufferedImage Img;  
     private MonsterManager monstermanager;
+    private Action action;
 
     private int[] draggingCell = null;
     private HeroManager heromanager;
@@ -32,7 +34,6 @@ public class Playing extends GameScene implements SceneMethods{
 
         heromanager = new HeroManager(this);
         monstermanager = new MonsterManager(this);
-        heromanager.spawn("Folk");
         //TODO Auto-generated constructor stub
     }
 
@@ -63,6 +64,7 @@ public class Playing extends GameScene implements SceneMethods{
         G.drawImage(Img, 0, 0, screen.getWidth(), screen.getHeight(), screen);
         monstermanager.draw(G, screen);
         heromanager.draw(G, screen);
+        action.draw(G, screen);
     }
 
     @Override
@@ -91,4 +93,7 @@ public class Playing extends GameScene implements SceneMethods{
         }
     }
     
+    public Action getAction(){
+        return action;
+    }
 }
