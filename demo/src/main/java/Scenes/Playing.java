@@ -34,7 +34,7 @@ public class Playing extends GameScene implements SceneMethods{
 
         heromanager = new HeroManager(this);
         monstermanager = new MonsterManager(this);
-        //TODO Auto-generated constructor stub
+        action = new Action(this);
     }
 
     // ถูกเรียกใน loop ของ Game class
