@@ -28,7 +28,7 @@ public class Monster {
         GlobalID++;
 
         info = new EntityInfo(Tier, health, speed);
-        position = new Vector2D(100, 100);
+        position = new Vector2D(38, 50);
         
         loader = new Loader();
         img = loader.loadMap(AccessImg);
@@ -40,22 +40,22 @@ public class Monster {
         // xDelta, yDelta จะเปลี่ยนแปลงหลังจากการเคลื่อนไหว
         
         //  เดินลงจากบน->ล่าง
-        if(position.getX() == 100 && position.getY() < 680 && position.getY() > 0){
+        if(position.getX() == 38 && position.getY() < 600 && position.getY() > 0){
             //xDelta = gamePanel.changexDelta(0);
             position.MoveYDelta(info.GetSpeed());
         }
         // เดินข้างไปทางขาว->ซ้าย
-        if(position.getY() == 680 && position.getX() < 1000){
+        if(position.getY() == 600 && position.getX() < 726){
             position.MoveXDelta(info.GetSpeed());
             //gamePanel.changeyDelta(0);
         }
         // เดินขึ้นจากล่าง->บน
-        if(position.getX() == 1000 && position.getY() > 100){
+        if(position.getX() == 726 && position.getY() > 20){
             //gamePanel.changexDelta(0);
             position.MoveYDelta(-info.GetSpeed());
         }
         // เดินจากซ้าย->ขวา
-        if( position.getX() > 100 && position.getY() == 100){
+        if( position.getX() > 38 && position.getY() == 20){
             position.MoveXDelta(-info.GetSpeed());
             //gamePanel.changeyDelta(0);
         }

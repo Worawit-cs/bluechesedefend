@@ -148,6 +148,8 @@ public class Hero {
         updateAnimation();
         int xPos = (int)position.getX();
         int yPos = (int)position.getY();
+        int r = (int)info.getRadius();
+        // g.drawOval(xPos - r/2 + 32, yPos - r/2 +32, r, r); // แสดงระยะตี
         switch (Stage) {
             case "Idle":
                 for (int i = 0; i < Amount; i++){

@@ -9,14 +9,15 @@ import java.awt.image.BufferedImage;
 import Stages.Loader;
 
 public class ImageButton {
-    private int x,y,w,h;
+    private int x,y,w,h,i;
     private Rectangle bounds;
     private boolean mouseOver;
     private BufferedImage Img;
     private Loader loader;
 
     public ImageButton(String path,int x, int y, int width, int height){
-        // Img = loader.loadMap(path);
+        loader = new Loader();
+        Img = loader.loadMap(path);
         this.x = x;
         this.y = y;
         this.w = width;
@@ -31,11 +32,13 @@ public class ImageButton {
     public void draw(Graphics G){
         // G.setColor(Color.WHITE); /// ตอนเทสว่าปุ่ม hitbox มันตรงมั้ย
         // G.fillRect(x, y, w, h); /// ตอนเทสว่าปุ่ม hitbox มันตรงมั้ย
-        // G.drawImage(Img, x, y, w, h, null);  //// ตอนใช้จริง
+        G.drawImage(Img.getSubimage(i*320, 0, 320, 120), x, y, w, h, null);
     }
 
     public void setMouseOver(boolean mouseOver){
         this.mouseOver = mouseOver;
+        if(mouseOver){ i=1; }
+        else{ i=0; }
     }
 
     public Rectangle getBounds(){

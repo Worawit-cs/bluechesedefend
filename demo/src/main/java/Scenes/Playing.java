@@ -34,7 +34,7 @@ public class Playing extends GameScene implements SceneMethods{
 
         heromanager = new HeroManager(this);
         monstermanager = new MonsterManager(this);
-        action = new Action(this);
+        action = new Action(this,heromanager);
     }
 
     // ถูกเรียกใน loop ของ Game class
@@ -46,7 +46,7 @@ public class Playing extends GameScene implements SceneMethods{
         if (System.currentTimeMillis() - tick >= 1000){
             if (monstermanager.getAmount() < 100){
                 // Test Spawn hero
-                heromanager.spawn("New");
+                // heromanager.spawn("New");
                 monstermanager.spawn("Dr_Parkarn");
                 
                 tick = System.currentTimeMillis();
@@ -95,5 +95,13 @@ public class Playing extends GameScene implements SceneMethods{
     
     public Action getAction(){
         return action;
+    }
+
+    public HeroManager getHeroManager(){
+        return heromanager;
+    }
+
+    public MonsterManager getMonsterManager(){
+        return monstermanager;
     }
 }

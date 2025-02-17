@@ -77,7 +77,7 @@ public class HeroManager {
     
     // ย้ายไปที่ cell นั้น
     public void goCell(Hero hero, Rectangle bound){
-        hero.getPos().Set((float)bound.getX(), (float)bound.getY());
+        hero.getPos().Set((float)bound.getX(), (float)bound.getY()+32);
     }
     
     // เช็คว่าอยู่ในพื้นที่ของ แถวและคอลัมไหน
@@ -131,7 +131,7 @@ public class HeroManager {
                 if (heros[i][j] != null){continue;}
 
                 heros[i][j] = hero;
-                hero.setPosition((float)boundTable[i][j].getX(), (float)boundTable[i][j].getY());
+                hero.setPosition((float)boundTable[i][j].getX(), (float)boundTable[i][j].getY()+32);
                 return;
             }
         }
@@ -175,11 +175,15 @@ public class HeroManager {
 
     // ใช้วาดรูปของตาราง เพื่อแสดงขอบเขตตารางให้ชัดเจน
     public void drawTable(Graphics G, int i, int j){
-        
+
         //border
         if (playing.dragging){
             G.setColor(Color.gray);
             G.drawRect(xStart + (boundWidth * j),yStart + (boundHeight * i), boundWidth, boundHeight);
         }
+    }
+
+    public boolean isHeroFull(){
+        return MaxHero-amountHero != 0;
     }
 }

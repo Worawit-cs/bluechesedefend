@@ -4,24 +4,31 @@ import Entity.Hero;
 import Manager.HeroManager;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.Random;
+
 import ui.ImageButton;
+import ui.CustomFont;
+
 import com.example.GameScreen;
 
 import Scenes.Playing;
 
 public class Action {
-    private int coin = 100;
-    private int gem = 0;
+    private int coin = 1000;
+    private int gem = 1000;
     private Hero[] hero;
-    private HeroManager HeroManager;
+    private HeroManager heroManager;
     private ImageButton SpinHeroButton;
     private Playing playing;
+    private CustomFont coinText,monsText,gemText;
 
-    public Action(Playing playing){
+    public Action(Playing playing,HeroManager heromanager){
         this.playing = playing;
-        SpinHeroButton = new ImageButton(null, 1055-110, 400-30, 220, 60);
+        this.heroManager = heromanager;
+        SpinHeroButton = new ImageButton("/Assets/Botton_random.png", 1055-105, 400-30, 210, 60);
+        coinText = new CustomFont("/Font/number.ttf", 970, 686,1,20f,false);
+        gemText = new CustomFont("/Font/number.ttf", 1097, 686,1,20f,false);
+        monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
         // hero[0] = new Hero(count, x, y, 0);
     }
 
@@ -37,7 +44,7 @@ public class Action {
         Random rand = new Random();
         int herocode = rand.nextInt();
         coin -= 10;
-        // เพิ่ม hero ไป
+        heroManager.spawn("New");//ควรจะ random
     }
 
     public void resetAssets(){
@@ -55,6 +62,10 @@ public class Action {
 
     public void draw(Graphics G,GameScreen screen){
         SpinHeroButton.draw(G);
+        coinText.draw(G,String.valueOf(coin));
+        monsText.draw(G,String.valueOf(playing.getMonsterManager().getAmount()));
+        gemText.draw(G, String.valueOf(gem));
+        // monsText.draw(G,String.valueOf(100));
         // g.drawString(""+coin,x,y);
     }
 
@@ -62,6 +73,14 @@ public class Action {
         // contain x,y ให้เรัยก ismoneyenough แล้วเรัยก randomhero
         if(SpinHeroButton.getBounds().contains(x,y)){
             System.out.println("Pressed!");
+            if(isMoneyEnough(10) && playing.getHeroManager().isHeroFull()){ randomHero(); }
+        }
+    }
+
+    public void mouseMoved(int x, int y){
+        SpinHeroButton.setMouseOver(false);
+        if(SpinHeroButton.getBounds().contains(x,y)){
+            SpinHeroButton.setMouseOver(true);
         }
     }
 
