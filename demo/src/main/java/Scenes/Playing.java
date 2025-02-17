@@ -16,6 +16,7 @@ import Stages.Loader;
 
 public class Playing extends GameScene implements SceneMethods{
 
+    public boolean dragging = false;
     private Loader loader;
     private BufferedImage Img;  
     private MonsterManager monstermanager;
@@ -31,6 +32,7 @@ public class Playing extends GameScene implements SceneMethods{
 
         heromanager = new HeroManager(this);
         monstermanager = new MonsterManager(this);
+        heromanager.spawn("Folk");
         //TODO Auto-generated constructor stub
     }
 
@@ -40,9 +42,12 @@ public class Playing extends GameScene implements SceneMethods{
         heromanager.update();
 
         // Test (Game over)
-        if (System.currentTimeMillis() - tick >= 500){
+        if (System.currentTimeMillis() - tick >= 1000){
             if (monstermanager.getAmount() < 100){
+                // Test Spawn hero
+                heromanager.spawn("New");
                 monstermanager.spawn("Dr_Parkarn");
+                
                 tick = System.currentTimeMillis();
             } else {
                 // เพิ่ม clear ข้อมูลออก
@@ -66,9 +71,6 @@ public class Playing extends GameScene implements SceneMethods{
 
     @Override
     public void mouseMoved(int x, int y) {
-        if (heromanager.contains(x, y)){
-            draggingCell = heromanager.boundContains(x, y);
-        }
     }
 
     @Override
@@ -78,11 +80,15 @@ public class Playing extends GameScene implements SceneMethods{
             heromanager.changeCell(draggingCell, new int[]{x,y});
         }
         
+        dragging = false;
         draggingCell = null;
     }
 
     @Override
     public void mousePressed(int x, int y) {
+        if (heromanager.contains(x, y)){
+            draggingCell = heromanager.boundContains(x, y);
+        }
     }
     
 }

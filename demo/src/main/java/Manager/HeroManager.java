@@ -6,18 +6,24 @@ import java.awt.Rectangle;
 
 import com.example.GameScreen;
 
+import Entity.Folk;
 import Entity.Hero;
+import Entity.New;
 import Scenes.Playing;
-import Stages.Loader;
 
 public class HeroManager {
-    private Loader loader;
+
     private Playing playing;
-    private int heroamount = 0;
+    private long tick = 0;
+
+    private int MaxHero = 20;
+    private int amountHero = 0;
+    private int MaxPerGroup = 3;
 
     private int row = 3;
     private int column = 6;
     private Hero[][] heros = new Hero[row][column];
+
     private Rectangle[][] boundTable = new Rectangle[row][column];
     private int boundWidth = 78; // ความกว้างของแต่ละ cell
     private int boundHeight = 120; // ความสูงของแต่ละ cell
@@ -29,6 +35,27 @@ public class HeroManager {
         
         initTable();
     }
+
+    
+    public void spawn(String Name){
+        if (amountHero >= MaxHero){return;}
+        
+        amountHero++;
+        Hero h = null;
+        switch (Name) {
+            case "New":
+            h = new New(); 
+            break;
+            
+            case "Folk":
+            h = new Folk();
+            break;
+        }
+        
+        // หาที่ให้ hero อยู่
+        findPos(h);
+    }
+    
     
     private void initTable(){
         // สร้างพื้นที่ของตาราง แต่ละ row column
@@ -38,18 +65,27 @@ public class HeroManager {
             }
         }
     }
-
+    
     // เช็คว่าอยู่ในพื้นที่เวทีของฮีโร่ไหม
     public boolean contains(int x, int y){
         return (x >= xStart && x <= xEnd + boundWidth) && (y >= yStart && y <= yEnd + boundHeight);
     }
-
+    
+    private boolean isSameHero(Hero hero, Hero compareHero){
+        return compareHero.getName() == hero.getName() && compareHero.getTier() == hero.getTier();
+    }
+    
+    // ย้ายไปที่ cell นั้น
+    public void goCell(Hero hero, Rectangle bound){
+        hero.getPos().Set((float)bound.getX(), (float)bound.getY());
+    }
+    
     // เช็คว่าอยู่ในพื้นที่ของ แถวและคอลัมไหน
     public int[] boundContains(int x, int y){
         for (int i = 0; i < row; i++){
             for (int j = 0; j < column; j++){
                 if (boundTable[i][j].contains(x, y)){
-                    if (heros[i][j] == null){break;}
+                    if (heros[i][j] != null){playing.dragging = true;}
                     
                     return new int[]{i,j};
                 };
@@ -60,23 +96,69 @@ public class HeroManager {
 
     // แลกเปลี่ยน cell
     public void changeCell(int[] heroCell, int[] targetCell){
-        Hero draggingCell = heros[heroCell[0]][heroCell[1]];
-        Hero tgCell = heros[targetCell[0]][targetCell[1]];
+        Hero draggingHero = heros[heroCell[0]][heroCell[1]];
+        if (draggingHero == null){return;} // ช่องที่ลากมาจะต้องมีฮีโร่อยู่
 
-        // ถ้า cell ที่อยากเปลี่ยนมีฮีโร่อยู่ ให้ทำการแลกกัน
-        if (tgCell != null){
-            heros[targetCell[0]][targetCell[1]] = draggingCell;
-            heros[heroCell[0]][heroCell[1]] = tgCell;
-        } else {
-            // ถ้า cell ที่อยากเปลี่ยนไม่มีฮีโร่อยู่ ก็แค่เปลี่ยนแล้วลบอันเก่าออก
-            heros[targetCell[0]][targetCell[1]] = draggingCell;
-            heros[heroCell[0]][heroCell[1]] = null;
+        targetCell = boundContains(targetCell[0], targetCell[1]);
+        Hero tgHero = heros[targetCell[0]][targetCell[1]];
+
+        Rectangle dragBoundCell = boundTable[heroCell[0]][heroCell[1]];
+        Rectangle tgBoundCell = boundTable[targetCell[0]][targetCell[1]];
+        // สลับ cell ใน Array
+        heros[targetCell[0]][targetCell[1]] = draggingHero;
+        heros[heroCell[0]][heroCell[1]] = tgHero;
+
+        // สลับตำแหน่งไปยัง cell นั้นๆ
+        goCell(draggingHero, tgBoundCell);
+        if (tgHero != null){ goCell(tgHero, dragBoundCell);; }
+    }
+
+    private void findPos(Hero hero){
+
+        // หาว่ามีกลุ่มที่ยังว่างของฮีโร่ตัวนี้อยู่แล้วหรือไม่ ถ้ามีก็เพิ่มจำนวนฮีโร่ในกลุ่มนั้นแล้วคืนค่า pos ของ cell นั้น
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < column; j++){
+                if (heros[i][j] == null || (!isSameHero(hero, heros[i][j]) || heros[i][j].getAmount() >= MaxPerGroup)){continue;}
+                
+                heros[i][j].increaseAmount();
+                return;
+            }
+        }
+
+        // ถ้าไม่ถูกคืนค่า แสดงว่าไม่มีกลุ่มว่าง หรือไม่มีกลุ่มอยู่แล้วก็ให้มาหาว่ายังมี cell ไหนที่ว่างอยู่บ้าง
+        for (int j = 0; j < column; j++){
+            for (int i = 0; i < row; i++){
+                if (heros[i][j] != null){continue;}
+
+                heros[i][j] = hero;
+                hero.setPosition((float)boundTable[i][j].getX(), (float)boundTable[i][j].getY());
+                return;
+            }
         }
     }
     
     // ถูกเรียกใน Playing class
     public void update(){
-        
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < column; j++){
+                if (heros[i][j] == null){continue;}
+
+                heros[i][j].attack();
+            }
+        }
+
+        // force change target every 2s.
+        if (System.currentTimeMillis() - tick >= 2000){
+            tick = System.currentTimeMillis();
+
+            for (int i = 0; i < row; i++){
+                for (int j = 0; j < column; j++){
+                    if (heros[i][j] == null){continue;}
+    
+                    heros[i][j].findTarget();
+                }
+            }
+        }
     }
 
     // ถูกเรียกใน Playing class
@@ -85,7 +167,7 @@ public class HeroManager {
             for (int j = 0; j < column; j++){
                 drawTable(G, i, j);
                 if (heros[i][j] == null) {continue;}
-
+                heros[i][j].draw(G);
 
             }
        }
@@ -95,7 +177,9 @@ public class HeroManager {
     public void drawTable(Graphics G, int i, int j){
         
         //border
-        G.setColor(Color.gray);
-        G.drawRect(xStart + (boundWidth * j),yStart + (boundHeight * i), boundWidth, boundHeight);
+        if (playing.dragging){
+            G.setColor(Color.gray);
+            G.drawRect(xStart + (boundWidth * j),yStart + (boundHeight * i), boundWidth, boundHeight);
+        }
     }
 }

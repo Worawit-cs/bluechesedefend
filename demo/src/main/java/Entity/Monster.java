@@ -1,6 +1,9 @@
 package Entity;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import Stages.Loader;
 
@@ -14,6 +17,7 @@ public class Monster {
     private Vector2D position;
 
     // animation info
+    private String Stage = "Walk";
     private Loader loader;
     private BufferedImage img;
     private BufferedImage[] moveMentAni;
@@ -68,6 +72,7 @@ public class Monster {
 
     public void takeDamage(int Damage){
        info.DecreaseHealth(Damage);
+       Stage = "Damaged";
     }
 
     public void heal(int value){
@@ -86,6 +91,7 @@ public class Monster {
     public void updateAnimation(){
         aniTick++;
         if(aniTick>=aniSpeed){
+            Stage = "Walk";
             aniTick=0;
             aniIndex = (aniIndex + 1)%moveMentAni.length;
         }
@@ -93,7 +99,28 @@ public class Monster {
 
     public void draw(Graphics g){
         updateAnimation();
-        g.drawImage(moveMentAni[aniIndex],(int)position.getX(), (int)position.getY(), 64, 64, null);
+        switch (Stage) {
+            case "Walk":
+                g.drawImage(moveMentAni[aniIndex],(int)position.getX(), (int)position.getY(), 64, 64, null);
+                break;
+        
+            case "Damaged":
+                damaged(g);
+                break;
+        }
+    }
+
+    private void damaged(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.drawImage(moveMentAni[aniIndex],(int)position.getX(), (int)position.getY(), 64, 64, null);
+
+        // Overlay สีแดง 50% บนภาพ
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f));
+        g2d.setColor(new Color(255, 0, 0, 128)); // สีแดงโปร่งแสง
+        g2d.fillRect((int)position.getX(), (int)position.getY(), 64, 64);
+
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
     }
 } // end Monster Class
 

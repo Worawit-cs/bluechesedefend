@@ -2,7 +2,7 @@ package Entity;
 
 public class Vector2D
 {
-    private float xDelta, yDelta;
+    private float xDelta = 100, yDelta = 100;
 
     public Vector2D(float xDelta, float yDelta){
         this.xDelta = xDelta;

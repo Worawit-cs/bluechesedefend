@@ -11,7 +11,8 @@ import Stages.Loader;
 
 public class Hero {
     private static int GlobalID = 0;
-    private int ID; // เข้ารหัส Hero
+    private int ID, tier; // เข้ารหัส Hero
+    private String Name;
     private HeroInfo info;
 
     // for cooldown
@@ -28,18 +29,22 @@ public class Hero {
     private BufferedImage[] idleAnim, attckAnim;
     private int aniTick,aniIndex,aniSpeed = 15;
 
-    public Hero(int X, int Y, String Name, int tier, int ATK, int Radius, float SPA, String idle, String attack){
+    public Hero(String Name, int tier, int ATK, int Radius, float SPA, String idle, String attack){
         this.ID = GlobalID;
-        info = new HeroInfo(tier, Name, ATK, Radius, SPA);
+        this.tier = tier;
+        this.Name = Name;
+        info = new HeroInfo(ATK, Radius, SPA);
         
-        position = new Vector2D(X, Y);
         Amount++;
         GlobalID++;
 
         imgAttack = loader.loadMap(attack);
         imgIdle = loader.loadMap(idle);
-        loadAnimations(attckAnim, imgAttack, 2);
-        loadAnimations(idleAnim, imgIdle, 2);
+        loadAnimations(imgIdle, imgAttack);
+    }
+
+    public void setPosition(float x, float y){
+        position = new Vector2D(x, y);
     }
 
     public void increaseAmount(){
@@ -53,7 +58,9 @@ public class Hero {
     }
 
     // Getter
-    public int getID() { return this.ID; }
+    public int getID() { return ID; }
+    public int getTier(){ return tier; }
+    public String getName(){ return Name; }
     public int getAmount(){ return Amount; }
     public HeroInfo getInfo(){ return info; }
     public Vector2D getPos(){ return position; }
@@ -61,12 +68,23 @@ public class Hero {
 
     // attack
     public void attack(){
+        // attack condition
+        if (System.currentTimeMillis() - tick < info.getSPA()){return;}
+
+        // animation
+        aniTick = 0; // reset tick for perfect timing attack animation
+        aniIndex = 0;
+
+        // attack function
+        Stage = "Attack";
+        tick = System.currentTimeMillis(); // cooldown
         // check distance first
-        if (checkDistance(target) > info.getRadius()){
+        if (target == null || !target.isAlive() || checkDistance(target) > info.getRadius()){
             findTarget();
+            System.out.println("Change " + Name );
         }
 
-        if (target != null){target.takeDamage(info.getATK());}
+        if (target != null){System.out.println("Attack " + Name + " " + target.getID());target.takeDamage(info.getATK());}
     }
 
     private double checkDistance(Monster target){
@@ -96,11 +114,16 @@ public class Hero {
     }
 
     // Animation
-    public void loadAnimations(BufferedImage[] animList, BufferedImage imgAnim, int n){
-        animList = new BufferedImage[n];
+    public void loadAnimations(BufferedImage imgIdle, BufferedImage imgAttack){
+        idleAnim = new BufferedImage[2];
+        attckAnim = new BufferedImage[2];
 
-        for(int i=0;i< animList.length;i++){
-            animList[i] = imgAnim.getSubimage(i*128, 0, 128, 128);
+        for(int i=0;i< idleAnim.length;i++){
+            idleAnim[i] = imgIdle.getSubimage(i*128, 0, 128, 128);
+        }  
+        
+        for(int i=0;i< attckAnim.length;i++){
+            attckAnim[i] = imgAttack.getSubimage(i*128, 0, 128, 128);
         }     
     }
 
@@ -121,25 +144,46 @@ public class Hero {
 
     
     public void draw(Graphics g){
-        // attack condition
-        if (System.currentTimeMillis() - tick >= info.getSPA() && target != null){
-            aniTick = 0; // reset tick for perfect timing attack animation
-            aniIndex = 0;
-            Stage = "Attack";
-            tick = System.currentTimeMillis(); // cooldown
-
-            // add attack function
-            attack();
-        } 
 
         updateAnimation();
+        int xPos = (int)position.getX();
+        int yPos = (int)position.getY();
         switch (Stage) {
             case "Idle":
-                g.drawImage(idleAnim[aniIndex],(int)position.getX(), (int)position.getY(), 64, 64, null);
+                for (int i = 0; i < Amount; i++){
+                    switch (i) {
+                        case 0:
+                            g.drawImage(idleAnim[aniIndex],xPos, yPos, 64, 64, null);
+                            break;
+                    
+                        case 1:
+                            g.drawImage(idleAnim[aniIndex],xPos -20, yPos +10, 64, 64, null);
+                            break;
+
+                        case 2:
+                            g.drawImage(idleAnim[aniIndex],xPos +20, yPos +10, 64, 64, null);
+                            break;
+                    }
+                }
                 break;
         
             case "Attack":
-                g.drawImage(attckAnim[aniIndex],(int)position.getX(), (int)position.getY(), 64, 64, null);
+
+                for (int i = 0; i < Amount; i++){
+                    switch (i) {
+                        case 0:
+                            g.drawImage(attckAnim[aniIndex],xPos, yPos, 64, 64, null);
+                            break;
+                    
+                        case 1:
+                            g.drawImage(attckAnim[aniIndex],xPos -20, yPos +10, 64, 64, null);
+                            break;
+
+                        case 2:
+                            g.drawImage(attckAnim[aniIndex],xPos +20, yPos +10, 64, 64, null);
+                            break;
+                    }
+                }
                 break;
         }
     }
@@ -147,17 +191,15 @@ public class Hero {
 
 class HeroInfo
 {
-    public HeroInfo(int tier, String Name, int ATK, int Radius, float SPA){
-        this.tier = tier;
-        this.Name = Name;
+    public HeroInfo(int ATK, int Radius, float SPA){
+
         this.ATK = ATK;
         this.Radius = Radius;
         this.SPA = SPA * 1000; // millisec to sec
     }
 
-    private int ATK, tier, Radius;
+    private int ATK, Radius;
     private float SPA;
-    private String Name;
 
     public void setATK(int Amount){
         this.ATK = ATK * Amount;
@@ -169,14 +211,6 @@ class HeroInfo
     
     public int getATK(){
         return ATK;
-    }
-    
-    public int getTier(){
-        return tier;
-    }
-    
-    public String getName(){
-        return Name;
     }
 
     public float getSPA(){
