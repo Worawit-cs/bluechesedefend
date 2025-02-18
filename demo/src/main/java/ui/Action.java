@@ -73,7 +73,7 @@ public class Action {
         // contain x,y ให้เรัยก ismoneyenough แล้วเรัยก randomhero
         if(SpinHeroButton.getBounds().contains(x,y)){
             System.out.println("Pressed!");
-            if(isMoneyEnough(10) && playing.getHeroManager().isHeroFull()){ randomHero(); }
+            if(isMoneyEnough(10) && !playing.getHeroManager().isHeroFull()){ randomHero(); }
         }
     }
 

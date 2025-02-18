@@ -69,10 +69,12 @@ public class Playing extends GameScene implements SceneMethods{
 
     @Override
     public void mouseClicked(int x, int y) {
+        action.mouseClicked(x, y);
     }
 
     @Override
     public void mouseMoved(int x, int y) {
+        action.mouseMoved(x, y);
     }
 
     @Override

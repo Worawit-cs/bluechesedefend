@@ -184,6 +184,6 @@ public class HeroManager {
     }
 
     public boolean isHeroFull(){
-        return MaxHero-amountHero != 0;
+        return amountHero == MaxHero;
     }
 }
