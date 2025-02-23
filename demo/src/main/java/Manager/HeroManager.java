@@ -142,6 +142,7 @@ public class HeroManager {
         Hero hero = heros[Cell[0]][Cell[1]];
         if (hero == null){return;}
 
+        String[] reward = hero.getReward();
         int amountLeft = hero.decreaseAmount(); // จำนวนฮีโร่ในกองนั้น
         amountHero--; // ลดจำนวนฮีโร่ทั้งหมดบนเวที
         // reward here
@@ -150,8 +151,20 @@ public class HeroManager {
         if (amountLeft == 0){
             heros[Cell[0]][Cell[1]] = null;
         }
+
+        playing.getPlayer().increaseValue(reward[0], Integer.parseInt(reward[1]));
     }
 
+    // upgrade (promote)
+    public void upgrade(int[] Cell){
+        Hero hero = heros[Cell[0]][Cell[1]];
+        if (hero != null && hero.getAmount() >= 3 && hero.getTier() != "Legendary"){
+
+            amountHero -= hero.getAmount();
+            heros[Cell[0]][Cell[1]] = null;
+            playing.getRandomHero().upgrade(hero.getTier());
+        }
+    }
 
     // ถูกเรียกใน Playing class
     public void update(){

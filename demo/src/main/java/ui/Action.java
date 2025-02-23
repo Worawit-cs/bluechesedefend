@@ -5,7 +5,6 @@ import Manager.HeroManager;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
 import ui.ImageButton;
 import ui.CustomFont;
@@ -13,21 +12,28 @@ import ui.CustomFont;
 import com.example.GameScreen;
 
 import Scenes.Playing;
+import Storage.Player;
+import Storage.RandomHero;
 
 public class Action {
-    private int coin = 1000;
-    private int gem = 1000;
     private String Stage = "Normal";
-
-    private Hero[] hero;
-    private HeroManager heroManager;
-    private ImageButton SpinHeroButton, BinButton, UpgradeButton;
+    
     private Playing playing;
-    private CustomFont coinText,monsText,gemText,maxMonsText;
+    private Player player;
+    private RandomHero randomHero;
 
-    public Action(Playing playing,HeroManager heromanager){
+    private CustomFont coinText,monsText,gemText,maxMonsText;
+    private ImageButton SpinHeroButton, BinButton, UpgradeButton;
+
+    public Action(Playing playing){
         this.playing = playing;
-        this.heroManager = heromanager;
+        this.player = playing.getPlayer();
+        this.randomHero = playing.getRandomHero();
+
+        init();
+    }
+
+    private void init(){
         SpinHeroButton = new ImageButton("/Assets/Botton_random.png", 
         950, 370, 210, 60, 320, 120);
         BinButton = new ImageButton("/Assets/bin.png", 
@@ -44,43 +50,16 @@ public class Action {
 
     public String getStage(){ return Stage; }
 
-    public void addCoin(int N){
-        coin += N;
-    } 
-
-    public void addGem(int N){
-        gem += N;
-    }
-
-    public void randomHero(){
-        Random rand = new Random();
-        int herocode = rand.nextInt();
-        coin -= 10;
-        heroManager.spawn("New");//ควรจะ random
-    }
-
-    public void resetAssets(){
-        coin = 100;
-        gem = 0;
-    }
-
-    public boolean isMoneyEnough(int x){
-        if (x < coin){
-            return true;
-        }
-        return false;
-    }
-
 
     public void draw(Graphics G,GameScreen screen){
         SpinHeroButton.draw(G);
         BinButton.draw(G);
         UpgradeButton.draw(G);
 
-        coinText.draw(G,String.valueOf(coin));
+        coinText.draw(G,String.valueOf(player.getCoin()));
         monsText.draw(G,String.valueOf(playing.getMonsterManager().getAmount()));
         maxMonsText.draw(G, String.valueOf(playing.getmaxMons()));
-        gemText.draw(G, String.valueOf(gem));
+        gemText.draw(G, String.valueOf(player.getGem()));
         // monsText.draw(G,String.valueOf(100));
         // g.drawString(""+coin,x,y);
     }
@@ -112,7 +91,10 @@ public class Action {
 
         if(SpinHeroButton.getBounds().contains(x,y)){
             SpinHeroButton.setMouseClick(true);
-            if(isMoneyEnough(10) && !playing.getHeroManager().isHeroFull()){ randomHero(); }
+            if(player.isEnough("Coin", 10) && !playing.getHeroManager().isHeroFull()){ 
+                player.decreaseValue("Coin", 10);
+                randomHero.randomAllWeight(); 
+            }
 
         } else if (BinButton.getBounds().contains(x,y)){
             changeStage("Bin", x, y);

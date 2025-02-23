@@ -10,8 +10,8 @@ import Stages.Loader;
 
 public class Hero {
     private static int GlobalID = 0;
-    private int ID, tier; // เข้ารหัส Hero
-    private String Name;
+    private int ID; // เข้ารหัส Hero
+    private String tier, Name;
     private HeroInfo info;
 
     // for cooldown
@@ -28,11 +28,11 @@ public class Hero {
     private BufferedImage[] idleAnim, attckAnim;
     private int aniTick,aniIndex,aniSpeed = 15;
 
-    public Hero(String Name, int tier, int ATK, int Radius, float SPA, String idle, String attack){
+    public Hero(String Name, String tier, int ATK, int Radius, float SPA, String Reward, String idle, String attack){
         this.ID = GlobalID;
         this.tier = tier;
         this.Name = Name;
-        info = new HeroInfo(ATK, Radius, SPA);
+        info = new HeroInfo(ATK, Radius, SPA, Reward);
         
         Amount++;
         GlobalID++;
@@ -59,12 +59,13 @@ public class Hero {
 
     // Getter
     public int getID() { return ID; }
-    public int getTier(){ return tier; }
-    public String getName(){ return Name; }
     public int getAmount(){ return Amount; }
+    public String getTier(){ return tier; }
+    public String getName(){ return Name; }
     public HeroInfo getInfo(){ return info; }
     public Vector2D getPos(){ return position; }
     public Monster getTarget(){ return target; }
+    public String[] getReward(){ return info.getReward(); }
 
     // attack
     public void attack(){
@@ -81,10 +82,10 @@ public class Hero {
         // check distance first
         if (target == null || !target.isAlive() || checkDistance(target) > info.getRadius()){
             findTarget();
-            System.out.println("Change " + Name );
+            //System.out.println("Change " + Name );
         }
 
-        if (target != null){System.out.println("Attack " + Name + " " + target.getID());target.takeDamage(info.getATK());}
+        if (target != null){target.takeDamage(info.getATK());}
     }
 
     private double checkDistance(Monster target){
@@ -193,18 +194,23 @@ public class Hero {
 
 class HeroInfo
 {
-    public HeroInfo(int ATK, int Radius, float SPA){
-
+    public HeroInfo(int ATK, int Radius, float SPA, String reward){
         this.ATK = ATK;
         this.Radius = Radius;
+        this.reward = reward.split("_");
         this.SPA = SPA * 1000; // millisec to sec
     }
 
+    private String[] reward;
     private int ATK, Radius;
     private float SPA;
 
     public void setATK(int Amount){
         this.ATK = ATK * Amount;
+    }
+
+    public String[] getReward(){
+        return reward;
     }
 
     public int getRadius(){

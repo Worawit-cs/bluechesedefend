@@ -23,11 +23,12 @@ public class Monster {
     private BufferedImage[] moveMentAni;
     private int aniTick,aniIndex,aniSpeed = 15;
 
-    public Monster(int Tier, int health, float speed, String AccessImg){
+    public Monster(int Tier, int health, float speed, String reward, String AccessImg){
         this.ID = GlobalID;
         GlobalID++;
 
-        info = new EntityInfo(Tier, health, speed);
+        info = new EntityInfo(Tier, health, speed, reward);
+
         position = new Vector2D(38, 50);
         
         loader = new Loader();
@@ -62,6 +63,7 @@ public class Monster {
         
     }
 
+    public String[] getReward(){ return info.GetReward(); }
     public Vector2D getPos(){ return position; }
     public int getID(){ return ID; }
 
@@ -129,7 +131,8 @@ public class Monster {
 
 class EntityInfo
 {
-    public EntityInfo(int tier, int MaxHealth, float speed){
+    public EntityInfo(int tier, int MaxHealth, float speed, String reward){
+        this.reward = reward.split("_");
         this.MaxHealth = MaxHealth;
         this.Health = MaxHealth;
         this.tier = tier;
@@ -140,6 +143,7 @@ class EntityInfo
     private int Health;
     private int tier;
     private float speed;
+    private String[] reward;
 
     public int GetMaxHealth(){
         return MaxHealth;
@@ -154,6 +158,8 @@ class EntityInfo
     public float GetSpeed(){
         return speed;
     }
+
+    public String[] GetReward(){ return reward; }
 
     public void AddHealth(int value){
         Health += value;

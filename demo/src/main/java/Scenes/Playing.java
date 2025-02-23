@@ -14,13 +14,17 @@ import Entity.Hero;
 import Manager.HeroManager;
 import Manager.MonsterManager;
 import Stages.Loader;
+import Storage.Player;
+import Storage.RandomHero;
 import ui.Action;
 
 public class Playing extends GameScene implements SceneMethods{
 
     public boolean dragging = false;
     private Loader loader;
-    private BufferedImage Img;  
+    private BufferedImage Img;
+    private Player player;
+    private RandomHero randomHero;
 
     private MonsterManager monstermanager;
     private int maxMons = 100;
@@ -36,9 +40,11 @@ public class Playing extends GameScene implements SceneMethods{
         loader = new Loader();
         Img = loader.loadMap("/Assets/BG.png");
 
+        player = new Player(this);
         heromanager = new HeroManager(this);
         monstermanager = new MonsterManager(this);
-        action = new Action(this,heromanager);
+        randomHero = new RandomHero(this);
+        action = new Action(this);
     }
 
     // ถูกเรียกใน loop ของ Game class
@@ -69,6 +75,7 @@ public class Playing extends GameScene implements SceneMethods{
         monstermanager.draw(G, screen);
         heromanager.draw(G, screen);
         action.draw(G, screen);
+        randomHero.draw(G, screen);
     }
 
     @Override
@@ -109,7 +116,8 @@ public class Playing extends GameScene implements SceneMethods{
                     break;
 
                 case "Upgrade":
-                    //heromanager.upgrade(Cell);
+                    dragging = false;
+                    heromanager.upgrade(Cell);
                     break;
             }
         }
@@ -120,6 +128,9 @@ public class Playing extends GameScene implements SceneMethods{
     }
     
     public int getmaxMons(){ return maxMons; } 
+
+    public RandomHero getRandomHero(){ return randomHero; }
+    public Player getPlayer(){ return player; }
 
     public Action getAction(){
         return action;

@@ -33,7 +33,9 @@ public class MonsterManager {
 
     // ใช้ลบ monster หลังพบว่าตายแล้ว
     public void remove(int index){
-        playing.getAction().addCoin(10);
+        String[] reward = monsters.get(index).getReward();
+        playing.getPlayer().increaseValue(reward[0], Integer.parseInt(reward[1]));
+
         monsters.remove(index);
     }
     
