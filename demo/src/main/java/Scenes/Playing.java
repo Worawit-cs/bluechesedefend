@@ -4,6 +4,7 @@ import static com.example.GameStates.MENU;
 import static com.example.GameStates.SetGameState;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import com.example.Game;
@@ -20,7 +21,10 @@ public class Playing extends GameScene implements SceneMethods{
     public boolean dragging = false;
     private Loader loader;
     private BufferedImage Img;  
+
     private MonsterManager monstermanager;
+    private int maxMons = 100;
+
     private Action action;
 
     private int[] draggingCell = null;
@@ -44,7 +48,7 @@ public class Playing extends GameScene implements SceneMethods{
 
         // Test (Game over)
         if (System.currentTimeMillis() - tick >= 1000){
-            if (monstermanager.getAmount() < 100){
+            if (monstermanager.getAmount() < maxMons){
                 // Test Spawn hero
                 // heromanager.spawn("New");
                 monstermanager.spawn("Dr_Parkarn");
@@ -83,7 +87,7 @@ public class Playing extends GameScene implements SceneMethods{
             System.out.println(draggingCell[0] + " " + draggingCell[1]);
             heromanager.changeCell(draggingCell, new int[]{x,y});
         }
-        
+       
         dragging = false;
         draggingCell = null;
     }
@@ -91,10 +95,32 @@ public class Playing extends GameScene implements SceneMethods{
     @Override
     public void mousePressed(int x, int y) {
         if (heromanager.contains(x, y)){
-            draggingCell = heromanager.boundContains(x, y);
+            int[] Cell = heromanager.boundContains(x, y);
+            if (!dragging){action.clearStage(); return;} // ถ้า cell นั้นไม่มีฮีโร่ให้รีเทนกลับ ไม่ทำอะไร
+
+            switch (action.getStage()) {
+                case "Normal":
+                    draggingCell = Cell;
+                    break;
+            
+                case "Bin":
+                    dragging = false; // ปิดการแสดงตาราง
+                    heromanager.remove(Cell);
+                    break;
+
+                case "Upgrade":
+                    //heromanager.upgrade(Cell);
+                    break;
+            }
         }
     }
+
+    public void keyPressed(KeyEvent e){
+        action.keyPressed(e);
+    }
     
+    public int getmaxMons(){ return maxMons; } 
+
     public Action getAction(){
         return action;
     }

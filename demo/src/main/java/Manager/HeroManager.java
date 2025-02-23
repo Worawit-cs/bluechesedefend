@@ -28,7 +28,7 @@ public class HeroManager {
     private int boundWidth = 78; // ความกว้างของแต่ละ cell
     private int boundHeight = 120; // ความสูงของแต่ละ cell
     private int xStart = 182, yStart = 176; // cell แรกจะเริ่มที่
-    private int xEnd = (xStart*column), yEnd = (yStart*row); // cell สุดท้ายจบที่
+    private int xEnd = (xStart + (boundWidth*column)), yEnd = (yStart + (boundHeight*row)); // cell สุดท้ายจบที่
 
     public HeroManager(Playing playing){
         this.playing = playing;
@@ -68,7 +68,7 @@ public class HeroManager {
     
     // เช็คว่าอยู่ในพื้นที่เวทีของฮีโร่ไหม
     public boolean contains(int x, int y){
-        return (x >= xStart && x <= xEnd + boundWidth) && (y >= yStart && y <= yEnd + boundHeight);
+        return (x >= xStart && x <= xEnd) && (y >= yStart && y <= yEnd);
     }
     
     private boolean isSameHero(Hero hero, Hero compareHero){
@@ -91,7 +91,7 @@ public class HeroManager {
                 };
             }
         }
-        return null;
+        return null; // impossible to be null
     }
 
     // แลกเปลี่ยน cell
@@ -137,6 +137,22 @@ public class HeroManager {
         }
     }
     
+    // remove
+    public void remove(int[] Cell){
+        Hero hero = heros[Cell[0]][Cell[1]];
+        if (hero == null){return;}
+
+        int amountLeft = hero.decreaseAmount(); // จำนวนฮีโร่ในกองนั้น
+        amountHero--; // ลดจำนวนฮีโร่ทั้งหมดบนเวที
+        // reward here
+
+        // ถ้าลดจำนวนฮีโร่ในกองแล้วไม่เหลือตัวละคร ให้ลบฮีโร่ในช่องนั้นทิ้ง (ทำเป็น null)
+        if (amountLeft == 0){
+            heros[Cell[0]][Cell[1]] = null;
+        }
+    }
+
+
     // ถูกเรียกใน Playing class
     public void update(){
         for (int i = 0; i < row; i++){

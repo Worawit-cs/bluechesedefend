@@ -23,7 +23,7 @@ public class GameScreen extends JPanel{
 
     void initInputs(){
         mouse = new Mouse(game);
-        keyboard = new Keyboard();
+        keyboard = new Keyboard(game);
 
         addMouseListener(mouse);
         addMouseMotionListener(mouse);

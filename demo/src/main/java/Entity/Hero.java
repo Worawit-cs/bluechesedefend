@@ -3,7 +3,6 @@ package Entity;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.util.ArrayList;
 
 import Manager.MonsterManager;
@@ -52,9 +51,10 @@ public class Hero {
         info.setATK(Amount);
     }
 
-    public void decreaseAmount(){
+    public int decreaseAmount(){
         Amount--;
         info.setATK(Amount);
+        return Amount;
     }
 
     // Getter
