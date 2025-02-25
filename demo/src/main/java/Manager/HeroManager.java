@@ -8,8 +8,16 @@ import com.example.GameScreen;
 
 import Entity.Folk;
 import Entity.Hero;
+import Entity.Mage;
 import Entity.New;
 import Scenes.Playing;
+
+/* how to add new hero to the game 
+ * 1. make new class and make constructer like class Folk New Mage
+ * 2. make new code codition in spawn Function in this script (line 52)
+ * 3. add hero name in RandomHero Script at any array of hero rate (line 34)
+ * 4. finish
+*/
 
 public class HeroManager {
 
@@ -18,7 +26,6 @@ public class HeroManager {
 
     private int MaxHero = 20;
     private int amountHero = 0;
-    private int MaxPerGroup = 3;
 
     private int row = 3;
     private int column = 6;
@@ -49,6 +56,14 @@ public class HeroManager {
             
             case "Folk":
             h = new Folk();
+            break;
+
+            case "Mage":
+            h = new Mage();
+            break;
+
+            default:
+                System.out.println("Not Found in HeroManager");
             break;
         }
         
@@ -85,7 +100,8 @@ public class HeroManager {
         for (int i = 0; i < row; i++){
             for (int j = 0; j < column; j++){
                 if (boundTable[i][j].contains(x, y)){
-                    if (heros[i][j] != null){playing.dragging = true;}
+                    // ถ้าช่องนั้นมีฮีโร่อยู่ ให้แสดงตาราง (เปิด dragging เป็น true) และแสดงระยะของฮีโร่ ณ ช่องนี้
+                    if (heros[i][j] != null){playing.dragging = true; heros[i][j].turnRadius(true);}
                     
                     return new int[]{i,j};
                 };
@@ -102,6 +118,9 @@ public class HeroManager {
         targetCell = boundContains(targetCell[0], targetCell[1]);
         Hero tgHero = heros[targetCell[0]][targetCell[1]];
 
+        // ปิดการแสดงระยะ
+        draggingHero.turnRadius(false);
+
         Rectangle dragBoundCell = boundTable[heroCell[0]][heroCell[1]];
         Rectangle tgBoundCell = boundTable[targetCell[0]][targetCell[1]];
         // สลับ cell ใน Array
@@ -110,7 +129,7 @@ public class HeroManager {
 
         // สลับตำแหน่งไปยัง cell นั้นๆ
         goCell(draggingHero, tgBoundCell);
-        if (tgHero != null){ goCell(tgHero, dragBoundCell);; }
+        if (tgHero != null){ goCell(tgHero, dragBoundCell); tgHero.turnRadius(false); }
     }
 
     private void findPos(Hero hero){
@@ -118,7 +137,8 @@ public class HeroManager {
         // หาว่ามีกลุ่มที่ยังว่างของฮีโร่ตัวนี้อยู่แล้วหรือไม่ ถ้ามีก็เพิ่มจำนวนฮีโร่ในกลุ่มนั้นแล้วคืนค่า pos ของ cell นั้น
         for (int i = 0; i < row; i++){
             for (int j = 0; j < column; j++){
-                if (heros[i][j] == null || (!isSameHero(hero, heros[i][j]) || heros[i][j].getAmount() >= MaxPerGroup)){continue;}
+                if (heros[i][j] == null || (!isSameHero(hero, heros[i][j]) || heros[i][j].getAmount() >= heros[i][j].getMaxPerGroup()))
+                {continue;}
                 
                 heros[i][j].increaseAmount();
                 return;
@@ -153,6 +173,7 @@ public class HeroManager {
         }
 
         playing.getPlayer().increaseValue(reward[0], Integer.parseInt(reward[1]));
+        hero.turnRadius(false);
     }
 
     // upgrade (promote)
@@ -164,6 +185,7 @@ public class HeroManager {
             heros[Cell[0]][Cell[1]] = null;
             playing.getRandomHero().upgrade(hero.getTier());
         }
+        hero.turnRadius(false);
     }
 
     // ถูกเรียกใน Playing class

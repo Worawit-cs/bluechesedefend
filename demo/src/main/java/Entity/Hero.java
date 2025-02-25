@@ -13,12 +13,15 @@ public class Hero {
     private int ID; // เข้ารหัส Hero
     private String tier, Name;
     private HeroInfo info;
+    private Boolean showRadius = false;
 
     // for cooldown
     private long tick = 0;
     private String Stage = "Idle";
 
     private int Amount = 0;
+    private int MaxPerGroup = 0;
+
     private Vector2D position;
     private Monster target = null;
 
@@ -26,12 +29,16 @@ public class Hero {
     private Loader loader = new Loader();
     private BufferedImage imgIdle, imgAttack;
     private BufferedImage[] idleAnim, attckAnim;
-    private int aniTick,aniIndex,aniSpeed = 15;
+    private int aniTick,aniIndex;
+    private double aniSpeed = 15;
 
-    public Hero(String Name, String tier, int ATK, int Radius, float SPA, String Reward, String idle, String attack){
+    public Hero(String Name, String tier, int ATK, int Radius, float SPA, int MaxPerGroup,
+     String Reward, String idle, String attack){
+
         this.ID = GlobalID;
         this.tier = tier;
         this.Name = Name;
+        this.MaxPerGroup = MaxPerGroup;
         info = new HeroInfo(ATK, Radius, SPA, Reward);
         
         Amount++;
@@ -39,11 +46,14 @@ public class Hero {
 
         imgAttack = loader.loadMap(attack);
         imgIdle = loader.loadMap(idle);
-        loadAnimations(imgIdle, imgAttack);
     }
 
     public void setPosition(float x, float y){
         position = new Vector2D(x, y);
+    }
+
+    public int getMaxPerGroup(){
+        return MaxPerGroup;
     }
 
     public void increaseAmount(){
@@ -55,6 +65,10 @@ public class Hero {
         Amount--;
         info.setATK(Amount);
         return Amount;
+    }
+
+    public void turnRadius(boolean OnOff){
+        showRadius = OnOff;
     }
 
     // Getter
@@ -77,15 +91,15 @@ public class Hero {
         aniIndex = 0;
 
         // attack function
-        Stage = "Attack";
         tick = System.currentTimeMillis(); // cooldown
+
         // check distance first
         if (target == null || !target.isAlive() || checkDistance(target) > info.getRadius()){
             findTarget();
             //System.out.println("Change " + Name );
         }
 
-        if (target != null){target.takeDamage(info.getATK());}
+        if (target != null){target.takeDamage(info.getATK()); Stage = "Attack";}
     }
 
     private double checkDistance(Monster target){
@@ -115,17 +129,20 @@ public class Hero {
     }
 
     // Animation
-    public void loadAnimations(BufferedImage imgIdle, BufferedImage imgAttack){
-        idleAnim = new BufferedImage[2];
-        attckAnim = new BufferedImage[2];
+    public void loadAnimations(int N_idle, int N_attack, int Size){
+        idleAnim = new BufferedImage[N_idle];
+        attckAnim = new BufferedImage[N_attack];
 
         for(int i=0;i< idleAnim.length;i++){
-            idleAnim[i] = imgIdle.getSubimage(i*128, 0, 128, 128);
+            idleAnim[i] = imgIdle.getSubimage(i*Size, 0, Size, Size);
         }  
         
         for(int i=0;i< attckAnim.length;i++){
-            attckAnim[i] = imgAttack.getSubimage(i*128, 0, 128, 128);
-        }     
+            attckAnim[i] = imgAttack.getSubimage(i*Size, 0, Size, Size);
+        }
+
+        // adjust animSpeed for perfect Attack animation
+        aniSpeed = (info.getSPA()/80);
     }
 
     public void updateAnimation(){
@@ -139,7 +156,15 @@ public class Hero {
                 return;
             }
 
-            aniIndex = (aniIndex + 1)%idleAnim.length;
+            switch (Stage) {
+                case "Attack":
+                    aniIndex = (aniIndex + 1)%attckAnim.length;
+                    break;
+            
+                case "Idle":
+                    aniIndex = (aniIndex + 1)%idleAnim.length;
+                    break;
+            }
         }
     }
 
@@ -150,7 +175,9 @@ public class Hero {
         int xPos = (int)position.getX();
         int yPos = (int)position.getY();
         int r = (int)info.getRadius();
-        // g.drawOval(xPos - r/2 + 32, yPos - r/2 +32, r, r); // แสดงระยะตี
+
+        if (showRadius){ g.drawOval(xPos - r+ 32, yPos - r +32, r*2, r*2); }
+
         switch (Stage) {
             case "Idle":
                 for (int i = 0; i < Amount; i++){
@@ -171,7 +198,6 @@ public class Hero {
                 break;
         
             case "Attack":
-
                 for (int i = 0; i < Amount; i++){
                     switch (i) {
                         case 0:

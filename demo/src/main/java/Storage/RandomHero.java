@@ -31,8 +31,9 @@ public class RandomHero {
         this.player = playing.getPlayer();
         this.heroManager = playing.getHeroManager();
 
+        // add new Hero here
         CommonHero = new String[]{"Folk", "New"};
-        RareHero = new String[]{"Folk", "New"};
+        RareHero = new String[]{"Mage"};
         EpicHero = new String[]{"Folk", "New"};
         LegendaryHero = new String[]{"Folk", "New"};
 
