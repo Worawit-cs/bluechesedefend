@@ -112,6 +112,14 @@ public class Action {
             case "Upgrade":
                 UpgradeButton.setClonePos(x, y);
                 break;
+
+            default:
+                break;
+        }
+
+        SpinHeroButton.setMouseOver(false);
+        if (SpinHeroButton.getBounds().contains(x, y)){
+            SpinHeroButton.setMouseOver(true);
         }
     }
 
