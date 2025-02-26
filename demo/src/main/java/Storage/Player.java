@@ -3,7 +3,7 @@ package Storage;
 import Scenes.Playing;
 
 public class Player {
-    private int coin, gem;
+    private int coin, gem, wave;
     private Playing playing;
     private double commonWeight, rareWeight, epicWeight, legendaryWeight;
 

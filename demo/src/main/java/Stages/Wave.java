@@ -23,7 +23,7 @@ public class Wave {
     private boolean isBossSpawn = false;
 
     private boolean showTime = false;
-    private int bossTimeLimit, breakTime = 20; //(Sec)
+    private int bossTimeLimit, breakTime = 5; //(Sec)
     private long tick, timeleft;
     
     public Wave(Playing playing){
@@ -31,7 +31,7 @@ public class Wave {
         this.randomMonster = new RandomMonster(playing);
         this.monsterManager = playing.getMonsterManager();
 
-        waveText = new CustomFont("/Font/number.ttf", 1125, 85,1,30f,false);
+        waveText = new CustomFont("/Font/number.ttf", 1130, 85, 1, 55f, false);
         timeText = new CustomFont("/Font/number.ttf", 500, 686,1,20f,false);
         monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
         maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
@@ -44,8 +44,8 @@ public class Wave {
                 MaxMon = 100; // condition to lose
                 MaxWave = 50;
                 MaxMonPerWave = 10; // first Wave
-                increaseRate = 3; // เพิ่มจำนวน MaxMon ตามจำนวน increaseRate
-                RateFreq = 2; // เพิ่มจำนวน MaxMon ทุกๆ กี่เวฟ
+                increaseRate = 5; // เพิ่มจำนวน MaxMon ตามจำนวน increaseRate
+                RateFreq = 1; // เพิ่มจำนวน MaxMon ทุกๆ กี่เวฟ
 
                 bossTimeLimit = 120;
                 bossSpawnFreq = 5; // boss spawn every ... wave
@@ -55,8 +55,8 @@ public class Wave {
                 MaxMon = 90;
                 MaxWave = 55;
                 MaxMonPerWave = 15; // first Wave
-                increaseRate = 5;
-                RateFreq = 2;
+                increaseRate = 10;
+                RateFreq = 1;
 
                 bossTimeLimit = 60;
                 bossSpawnFreq = 5;
@@ -118,7 +118,7 @@ public class Wave {
             }else {
                 timeleft = (breakTime*1000) - (System.currentTimeMillis() - tick);
                 
-                if (timeleft <= 10000){
+                if (timeleft <= 5000){
                     showTime = true;
                 }
             }
@@ -132,7 +132,7 @@ public class Wave {
     public void draw(Graphics G, GameScreen Screen){
 
         maxMonsText.draw(G, String.valueOf(MaxMon));
-        waveText.draw(G, String.valueOf(CurrentWave) + " / " + String.valueOf(MaxWave));
+        waveText.draw(G, String.valueOf(CurrentWave));
         monsText.draw(G, String.valueOf(monsterManager.getAmount()));
 
         if (!showTime){return;}

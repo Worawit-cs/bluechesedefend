@@ -235,9 +235,15 @@ class HeroInfo
         this.ATK = ATK * Amount;
     }
 
+    public void upgradeATK(){
+        ATK = ATK * 2;
+    }
+
+
     public String[] getReward(){
         return reward;
     }
+
 
     public int getRadius(){
         return Radius;

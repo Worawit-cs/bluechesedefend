@@ -4,7 +4,11 @@ import Entity.Hero;
 import Manager.HeroManager;
 
 import java.awt.Graphics;
+import java.awt.Menu;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import javax.swing.text.html.parser.Entity;
 
 import ui.ImageButton;
 import ui.CustomFont;
@@ -16,14 +20,14 @@ import Storage.Player;
 import Storage.RandomHero;
 
 public class Action {
+    private int wave = 1;
     private String Stage = "Normal";
-    
     private Playing playing;
     private Player player;
     private RandomHero randomHero;
 
-    private CustomFont coinText,monsText,gemText,maxMonsText;
-    private ImageButton SpinHeroButton, BinButton, UpgradeButton;
+    private CustomFont coinText,monsText,gemText,maxMonsText,waveText;
+    private ImageButton SpinHeroButton, BinButton, UpgradeButton, LuckySpinButton, UpgradeNormal, UpgradeEpic, UpgradeLegendary;
 
     public Action(Playing playing){
         this.playing = playing;
@@ -35,30 +39,53 @@ public class Action {
 
     private void init(){
         SpinHeroButton = new ImageButton("/Assets/Botton_summon_coin.png", 
-        949, 412, 210, 60, 320, 120);
+        949, 411, 210, 60, 320, 120);
+        LuckySpinButton = new ImageButton("/Assets/Botton_summon_daimond.png",
+        949, 537, 210, 60, 320, 120);
         BinButton = new ImageButton("/Assets/bin.png", 
-        1000, 340, 64, 64, 64, 64);
+        830, 415, 64, 64, 64, 64);
         UpgradeButton = new ImageButton("/Assets/Arrow.png", 
-        1050, 340, 64, 64, 64, 64);
+        880, 415, 64, 64, 64, 64);
+        
 
         coinText = new CustomFont("/Font/number.ttf", 970, 686,1,20f,false);
         gemText = new CustomFont("/Font/number.ttf", 1097, 686,1,20f,false);
+        monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
+        maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
         // hero[0] = new Hero(count, x, y, 0);
+        
+        UpgradeNormal = new ImageButton("/Assets/Botton_up.png", 884, 335, 70, 40, 100, 66);
+        UpgradeEpic = new ImageButton("/Assets/Botton_up.png", 1018, 335, 70, 40, 100, 66);
+        UpgradeLegendary = new ImageButton("/Assets/Botton_up.png", 1158, 335, 70, 40, 100, 66);
     }
 
     public String getStage(){ return Stage; }
-
+    public int getWave(){ return wave; }
 
     public void draw(Graphics G,GameScreen screen){
         SpinHeroButton.draw(G);
+        LuckySpinButton.draw(G);
         BinButton.draw(G);
         UpgradeButton.draw(G);
-
+        UpgradeNormal.draw(G);
+        UpgradeEpic.draw(G);
+        UpgradeLegendary.draw(G);
+        
+        
         coinText.draw(G,String.valueOf(player.getCoin()));
+        monsText.draw(G,String.valueOf(playing.getMonsterManager().getAmount()));
+        // maxMonsText.draw(G, String.valueOf(playing.getmaxMons()));
         gemText.draw(G, String.valueOf(player.getGem()));
+
         // monsText.draw(G,String.valueOf(100));
         // g.drawString(""+coin,x,y);
     }
+
+    public void waveIncrease(){
+        wave++;
+    }
+
+
 
     public void clearStage(){
         Stage = "Normal";
@@ -98,7 +125,23 @@ public class Action {
         } else if (UpgradeButton.getBounds().contains(x,y)){
             changeStage("Upgrade", x, y);
             
-        } else {
+        } else if(LuckySpinButton.getBounds().contains(x,y)){
+            LuckySpinButton.setMouseClick(true);
+            if(player.isEnough("Gem", 1)){
+                player.decreaseValue("Gem", 1);
+                randomHero.randomAllWeight();
+            }
+
+        } else if(UpgradeNormal.getBounds().contains(x,y)){
+            UpgradeNormal.setMouseClick(true);
+            
+
+        } else if(UpgradeEpic.getBounds().contains(x,y)){
+            UpgradeEpic.setMouseClick(true);
+        } else if(UpgradeLegendary.getBounds().contains(x,y)){
+            UpgradeLegendary.setMouseClick(true);
+        }
+        else {
             if (Stage != "Normal" && !playing.getHeroManager().contains(x, y)){ clearStage(); }
         }
     }
@@ -112,15 +155,34 @@ public class Action {
             case "Upgrade":
                 UpgradeButton.setClonePos(x, y);
                 break;
-
+                
             default:
                 break;
         }
-
         SpinHeroButton.setMouseOver(false);
         if (SpinHeroButton.getBounds().contains(x, y)){
             SpinHeroButton.setMouseOver(true);
         }
+        if(LuckySpinButton.getBounds().contains(x,y)){
+            LuckySpinButton.setMouseOver(true);
+        } else {
+            LuckySpinButton.setMouseOver(false);
+        }
+        if(UpgradeNormal.getBounds().contains(x,y)){
+            UpgradeNormal.setMouseOver(true);
+        } else {
+            UpgradeNormal.setMouseOver(false);
+        }
+        if(UpgradeEpic.getBounds().contains(x,y)){
+            UpgradeEpic.setMouseOver(true);
+        } else {
+            UpgradeEpic.setMouseOver(false);
+        }
+        if(UpgradeLegendary.getBounds().contains(x,y)){
+            UpgradeLegendary.setMouseOver(true);
+        } else {
+            UpgradeLegendary.setMouseOver(false);
+        };
     }
 
     public void keyPressed(KeyEvent e){

@@ -55,7 +55,10 @@ public class GameOver extends GameScene implements SceneMethods {
 
     @Override
     public void mouseMoved(int x, int y) {
-        // TODO Auto-generated method stub
+        Replay.setMouseOver(false);
+        if(Replay.getBounds().contains(x,y)){
+            Replay.setMouseOver(true);
+        }
         
     }
 
