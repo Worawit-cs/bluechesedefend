@@ -1,8 +1,6 @@
 package com.example;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Render {
     private Game game;
@@ -25,6 +23,9 @@ public class Render {
                 break;
             case SETTINGS:
                 game.getSettings().render(G, screen);
+                break;
+            case GAME_OVER:
+                game.getGameOver().render(G, screen);
                 break;
             default:
                 break;

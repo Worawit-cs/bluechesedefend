@@ -1,6 +1,6 @@
 package Scenes;
 
-import static com.example.GameStates.MENU;
+import static com.example.GameStates.GAME_OVER;
 import static com.example.GameStates.SetGameState;
 
 import java.awt.Graphics;
@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
 import com.example.Game;
 import com.example.GameScreen;
 
-import Entity.Hero;
 import Manager.HeroManager;
 import Manager.MonsterManager;
 import Stages.Loader;
+import Stages.Wave;
 import Storage.Player;
 import Storage.RandomHero;
 import ui.Action;
@@ -21,50 +21,55 @@ import ui.Action;
 public class Playing extends GameScene implements SceneMethods{
 
     public boolean dragging = false;
+    private boolean win = false;
+    
+    private String Mode;
     private Loader loader;
     private BufferedImage Img;
     private Player player;
     private RandomHero randomHero;
 
+    private Wave wave;
     private MonsterManager monstermanager;
-    private int maxMons = 100;
 
     private Action action;
 
     private int[] draggingCell = null;
     private HeroManager heromanager;
-    private long tick = 0;
 
     public Playing(Game game) {
         super(game);
         loader = new Loader();
         Img = loader.loadMap("/Assets/BG.png");
+    }
+
+    public void start(String Mode){
+        MonsterManager.resetMonsters();
+
+        this.Mode = Mode;
+        this.dragging = false;
+        this.win = false;
+        this.draggingCell = null;
 
         player = new Player(this);
         heromanager = new HeroManager(this);
         monstermanager = new MonsterManager(this);
         randomHero = new RandomHero(this);
         action = new Action(this);
+
+        wave = new Wave(this);
+    }
+
+    public void end(String Stage){
+        if (Stage == "Victory"){ win = true; }
+        SetGameState(GAME_OVER);
     }
 
     // ถูกเรียกใน loop ของ Game class
     public void update(){
         monstermanager.update();
         heromanager.update();
-
-        // Test (Game over)
-        if (System.currentTimeMillis() - tick >= 1000){
-            if (monstermanager.getAmount() < maxMons){
-                // Test Spawn hero
-                // heromanager.spawn("New");
-                monstermanager.spawn("Dr_Parkarn");
-                
-                tick = System.currentTimeMillis();
-            } else {
-                // เพิ่ม clear ข้อมูลออก
-                SetGameState(MENU);
-            }
-        }
+        wave.update();
     }
 
 
@@ -76,6 +81,7 @@ public class Playing extends GameScene implements SceneMethods{
         heromanager.draw(G, screen);
         action.draw(G, screen);
         randomHero.draw(G, screen);
+        wave.draw(G, screen);
     }
 
     @Override
@@ -127,20 +133,13 @@ public class Playing extends GameScene implements SceneMethods{
         action.keyPressed(e);
     }
     
-    public int getmaxMons(){ return maxMons; } 
-
-    public RandomHero getRandomHero(){ return randomHero; }
+    public Wave getWave(){ return wave; }
+    public boolean isWin(){ return win; }
+    public String getMode(){ return Mode; }
+    
     public Player getPlayer(){ return player; }
-
-    public Action getAction(){
-        return action;
-    }
-
-    public HeroManager getHeroManager(){
-        return heromanager;
-    }
-
-    public MonsterManager getMonsterManager(){
-        return monstermanager;
-    }
+    public Action getAction(){ return action; }
+    public RandomHero getRandomHero(){ return randomHero; }
+    public HeroManager getHeroManager(){ return heromanager; }
+    public MonsterManager getMonsterManager(){ return monstermanager; }
 }

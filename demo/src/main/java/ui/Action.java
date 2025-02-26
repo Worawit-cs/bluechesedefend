@@ -34,17 +34,15 @@ public class Action {
     }
 
     private void init(){
-        SpinHeroButton = new ImageButton("/Assets/Botton_random.png", 
-        950, 370, 210, 60, 320, 120);
+        SpinHeroButton = new ImageButton("/Assets/Botton_summon_coin.png", 
+        949, 412, 210, 60, 320, 120);
         BinButton = new ImageButton("/Assets/bin.png", 
-        950, 450, 64, 64, 64, 64);
+        1000, 340, 64, 64, 64, 64);
         UpgradeButton = new ImageButton("/Assets/Arrow.png", 
-        1000, 450, 64, 64, 64, 64);
+        1050, 340, 64, 64, 64, 64);
 
         coinText = new CustomFont("/Font/number.ttf", 970, 686,1,20f,false);
         gemText = new CustomFont("/Font/number.ttf", 1097, 686,1,20f,false);
-        monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
-        maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
         // hero[0] = new Hero(count, x, y, 0);
     }
 
@@ -57,8 +55,6 @@ public class Action {
         UpgradeButton.draw(G);
 
         coinText.draw(G,String.valueOf(player.getCoin()));
-        monsText.draw(G,String.valueOf(playing.getMonsterManager().getAmount()));
-        maxMonsText.draw(G, String.valueOf(playing.getmaxMons()));
         gemText.draw(G, String.valueOf(player.getGem()));
         // monsText.draw(G,String.valueOf(100));
         // g.drawString(""+coin,x,y);

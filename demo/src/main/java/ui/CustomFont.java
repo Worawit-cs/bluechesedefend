@@ -32,6 +32,10 @@ public class CustomFont extends JPanel {
         }
     }
 
+    public void changeColor(int x){
+        this.color = x;
+    }
+
     public void draw(Graphics g,String text){
         g.setFont(customFont.deriveFont(size));
         switch(color){
@@ -40,6 +44,9 @@ public class CustomFont extends JPanel {
                 break;
             case 2:
                 g.setColor(new Color(0xff0000));
+                break;
+            case 3:
+                g.setColor(Color.YELLOW);
                 break;
         }
         // g.setColor(Color.WHITE);

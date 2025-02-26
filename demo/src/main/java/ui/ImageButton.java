@@ -41,11 +41,11 @@ public class ImageButton {
         // G.setColor(Color.WHITE); /// ตอนเทสว่าปุ่ม hitbox มันตรงมั้ย
         // G.fillRect(x, y, w, h); /// ตอนเทสว่าปุ่ม hitbox มันตรงมั้ย
         if (mouseClicked){
-            G.drawImage(Img.getSubimage(pixX, 0, pixX, pixY), x, y, w, h, null);
+            G.drawImage(Img.getSubimage(2*pixX, 0, pixX, pixY), x, y, w, h, null);
             if (System.currentTimeMillis() - tick >= debouceTime){ mouseClicked = false; }
 
         } else if (mouseOver){
-            G.drawImage(Img.getSubimage(2*pixX, 0, pixX, pixY), x, y, w, h, null);
+            G.drawImage(Img.getSubimage(pixX, 0, pixX, pixY), x, y, w, h, null);
         } else {
             G.drawImage(Img.getSubimage(0, 0, pixX, pixY), x, y, w, h, null);
         }

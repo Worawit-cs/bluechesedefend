@@ -53,6 +53,7 @@ public class Mouse implements MouseListener,MouseMotionListener{
                     game.getMode().mouseClicked(e.getX(),e.getY());
                     break;
                 case GAME_OVER:
+                    game.getGameOver().mouseClicked(e.getX(), e.getY());
                     break;
                 case MENU:
                     game.getMenu().mouseClicked(e.getX(),e.getY());

@@ -67,7 +67,6 @@ public class RandomHero {
         double weight = player.getWeight(rarity);
 
         if (rate <= weight){
-            System.out.println("Success");
             randomHero(rarity);
         }
     }

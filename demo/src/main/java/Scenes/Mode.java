@@ -11,10 +11,13 @@ import ui.Button;
 
 public class Mode extends GameScene implements SceneMethods{
 
+    private Game game;
     private Button Normal,Hard,BacktoMenu;
 
     public Mode(Game game) {
         super(game);
+        this.game = game;
+
         int w = 200;
         int h = 75;
         Normal = new Button("Normal",440 - (int)w/2,360 - (int)h/2,w,h);
@@ -32,10 +35,12 @@ public class Mode extends GameScene implements SceneMethods{
     @Override
     public void mouseClicked(int x, int y) {
         if(Normal.getBounds().contains(x,y)){
+            game.getPlaying().start("Normal");
             SetGameState(PLAYING);
         }
         else if(Hard.getBounds().contains(x,y)){
             // setmonster เลือดเยอะขึ้น (ทำทีหลัง)
+            game.getPlaying().start("Hard");
             SetGameState(PLAYING);
         }
         else if(BacktoMenu.getBounds().contains(x,y)){
