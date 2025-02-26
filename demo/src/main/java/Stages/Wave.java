@@ -23,7 +23,7 @@ public class Wave {
     private boolean isBossSpawn = false;
 
     private boolean showTime = false;
-    private int bossTimeLimit, breakTime = 5; //(Sec)
+    private int bossTimeLimit, breakTime = 20; //(Sec)
     private long tick, timeleft;
     
     public Wave(Playing playing){
@@ -118,7 +118,7 @@ public class Wave {
             }else {
                 timeleft = (breakTime*1000) - (System.currentTimeMillis() - tick);
                 
-                if (timeleft <= 5000){
+                if (timeleft <= 10000){
                     showTime = true;
                 }
             }

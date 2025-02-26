@@ -20,13 +20,13 @@ import Storage.Player;
 import Storage.RandomHero;
 
 public class Action {
-    private int wave = 1;
+    
     private String Stage = "Normal";
     private Playing playing;
     private Player player;
     private RandomHero randomHero;
 
-    private CustomFont coinText,monsText,gemText,maxMonsText,waveText;
+    private CustomFont coinText,gemText;
     private ImageButton SpinHeroButton, BinButton, UpgradeButton, LuckySpinButton, UpgradeNormal, UpgradeEpic, UpgradeLegendary;
 
     public Action(Playing playing){
@@ -50,8 +50,6 @@ public class Action {
 
         coinText = new CustomFont("/Font/number.ttf", 970, 686,1,20f,false);
         gemText = new CustomFont("/Font/number.ttf", 1097, 686,1,20f,false);
-        monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
-        maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
         // hero[0] = new Hero(count, x, y, 0);
         
         UpgradeNormal = new ImageButton("/Assets/Botton_up.png", 884, 335, 70, 40, 100, 66);
@@ -60,7 +58,6 @@ public class Action {
     }
 
     public String getStage(){ return Stage; }
-    public int getWave(){ return wave; }
 
     public void draw(Graphics G,GameScreen screen){
         SpinHeroButton.draw(G);
@@ -73,19 +70,10 @@ public class Action {
         
         
         coinText.draw(G,String.valueOf(player.getCoin()));
-        monsText.draw(G,String.valueOf(playing.getMonsterManager().getAmount()));
-        // maxMonsText.draw(G, String.valueOf(playing.getmaxMons()));
         gemText.draw(G, String.valueOf(player.getGem()));
 
-        // monsText.draw(G,String.valueOf(100));
         // g.drawString(""+coin,x,y);
     }
-
-    public void waveIncrease(){
-        wave++;
-    }
-
-
 
     public void clearStage(){
         Stage = "Normal";
