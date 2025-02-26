@@ -122,14 +122,20 @@ public class Action {
 
         } else if(UpgradeNormal.getBounds().contains(x,y)){
             UpgradeNormal.setMouseClick(true);
-            
-
+            if(player.isEnough("Coin", player.getUpgrade("Common") * 50)){
+                UpgradeAllHero("Common");
+            }
         } else if(UpgradeEpic.getBounds().contains(x,y)){
             UpgradeEpic.setMouseClick(true);
+            if(player.isEnough("Coin", player.getUpgrade("Epic") * 50)){
+                UpgradeAllHero("Epic");
+            }
         } else if(UpgradeLegendary.getBounds().contains(x,y)){
             UpgradeLegendary.setMouseClick(true);
-        }
-        else {
+            if(player.isEnough("Coin", player.getUpgrade("Legendary") * 50)){   
+                UpgradeAllHero("Legendary");
+            }
+        } else {
             if (Stage != "Normal" && !playing.getHeroManager().contains(x, y)){ clearStage(); }
         }
     }
@@ -171,6 +177,29 @@ public class Action {
         } else {
             UpgradeLegendary.setMouseOver(false);
         };
+    }
+
+    private void UpgradeAllHero(String Tier){
+        Hero[][] heroArray = playing.getHeroManager().getHeros();
+        ArrayList<Hero> heros = new ArrayList<>();
+        for (Hero[] heroRow : heroArray) { //array 2d to array 1d 
+            for (Hero hero : heroRow) {
+                heros.add(hero);
+            }
+        }
+        for (Hero hero : heros){ //upgrade hero ทั้งหมดบน field
+            if (Tier == "Common"){
+                if (hero != null && (hero.getTier() == "Common" || hero.getTier() == "Rare")){
+                    hero.upgradeATK();
+                }
+            }
+            else{
+                if (hero != null && hero.getTier() == Tier){
+                    hero.upgradeATK();
+                }
+            }
+        }
+        player.UpgradeHero(Tier);
     }
 
     public void keyPressed(KeyEvent e){

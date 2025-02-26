@@ -6,6 +6,7 @@ public class Player {
     private int coin, gem, wave;
     private Playing playing;
     private double commonWeight, rareWeight, epicWeight, legendaryWeight;
+    private int UpgradeNormal = 1, UpgradeEpic = 1,UpgradeLegendary = 1;
 
     public Player(Playing playing){
         this.playing = playing;
@@ -17,6 +18,39 @@ public class Player {
         rareWeight = 10;
         epicWeight = 5;
         legendaryWeight = 1.5;
+    }
+
+    public int getUpgrade(String Tier){
+        switch (Tier) {
+            case "Epic":
+                return UpgradeEpic;
+            
+            case "Legendary":
+                return UpgradeLegendary;
+
+            default:
+                return UpgradeNormal;
+        }
+
+    }
+
+    public void UpgradeHero(String Tier){
+        switch (Tier) {
+            case "Common":
+                UpgradeNormal++;
+                decreaseValue("Coin", UpgradeNormal * 50);
+                break;
+
+            case "Epic":
+                UpgradeEpic++;
+                decreaseValue("Coin", UpgradeEpic * 50);
+                break;
+            
+            case "Legendary":
+                UpgradeLegendary++;
+                decreaseValue("Coin", UpgradeLegendary * 50);
+                break;
+        }
     }
 
     public double getTotalWeight(){

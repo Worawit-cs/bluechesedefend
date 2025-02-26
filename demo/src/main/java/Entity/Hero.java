@@ -32,7 +32,7 @@ public class Hero {
     private int aniTick,aniIndex;
     private double aniSpeed = 15;
 
-    public Hero(String Name, String tier, int ATK, int Radius, float SPA, int MaxPerGroup,
+    public Hero(String Name, String tier, int ATK , int Radius, float SPA, int MaxPerGroup,
      String Reward, String idle, String attack){
 
         this.ID = GlobalID;
@@ -46,6 +46,14 @@ public class Hero {
 
         imgAttack = loader.loadMap(attack);
         imgIdle = loader.loadMap(idle);
+    }
+
+    public void upgradeATK(){
+        info.upgradeATK();
+    }
+
+    public void upgradeATKAmount(int N){
+        info.upgradeATKAmount(N);
     }
 
     public void setPosition(float x, float y){
@@ -222,23 +230,29 @@ class HeroInfo
 {
     public HeroInfo(int ATK, int Radius, float SPA, String reward){
         this.ATK = ATK;
+        this.SumATK = ATK;
         this.Radius = Radius;
         this.reward = reward.split("_");
         this.SPA = SPA * 1000; // millisec to sec
     }
 
     private String[] reward;
-    private int ATK, Radius;
+    private int ATK, SumATK , Radius;
     private float SPA;
 
     public void setATK(int Amount){
-        this.ATK = ATK * Amount;
+        this.SumATK = ATK * Amount;
     }
 
     public void upgradeATK(){
         ATK = ATK * 2;
+        System.out.println("Upgrade ATK to " + ATK);
     }
 
+    public void upgradeATKAmount(int UpgradeNum){
+        ATK = ATK * UpgradeNum;
+        System.out.println("Summon with Upgrade ATK to " + ATK);
+    }
 
     public String[] getReward(){
         return reward;
@@ -250,7 +264,7 @@ class HeroInfo
     }
     
     public int getATK(){
-        return ATK;
+        return SumATK;
     }
 
     public float getSPA(){

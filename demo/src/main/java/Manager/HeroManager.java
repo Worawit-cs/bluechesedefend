@@ -51,7 +51,7 @@ public class HeroManager {
         Hero h = null;
         switch (Name) {
             case "New":
-            h = new New(); 
+            h = new New();
             break;
             
             case "Folk":
@@ -66,6 +66,7 @@ public class HeroManager {
                 System.out.println("Not Found in HeroManager");
             break;
         }
+        h.upgradeATKAmount(playing.getPlayer().getUpgrade(h.getTier()));
         
         // หาที่ให้ hero อยู่
         findPos(h);
@@ -236,5 +237,9 @@ public class HeroManager {
 
     public boolean isHeroFull(){
         return amountHero == MaxHero;
+    }
+
+    public Hero[][] getHeros() {
+        return heros;
     }
 }

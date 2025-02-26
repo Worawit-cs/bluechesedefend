@@ -51,7 +51,7 @@ public class Menu extends GameScene implements SceneMethods{
     private void importImg(String path){
 
         InputStream is = getClass().getResourceAsStream(path);
-
+        
         try {
             // โหลดภาพจากไฟล์
             Img = ImageIO.read(is); 
