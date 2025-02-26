@@ -38,6 +38,10 @@ public class Wave {
         setMode();
     }
 
+    public int getCurrentWave(){
+        return CurrentWave;
+    }
+
     private void setMode(){
         switch (playing.getMode()) {
             case "Normal":

@@ -17,7 +17,7 @@ public class MonsterManager {
     
     private static ArrayList<Monster> monsters = new ArrayList<Monster>();
     private Playing playing;
-    private int ModeMultiple;
+    private double percent;
 
     public MonsterManager(Playing playing){
         this.playing = playing;
@@ -39,11 +39,11 @@ public class MonsterManager {
     private void setMode(){
         switch (playing.getMode()) {
             case "Normal":
-                ModeMultiple = 1;
+                percent = 1.2;
                 break;
         
             case "Hard":
-                ModeMultiple = 3;
+                percent = 1.4;
                 break;
         }
     }
@@ -62,9 +62,10 @@ public class MonsterManager {
         // นำ Entity ตัวใหม่ไปใส่ใน ArrayList เพื่อใช้ใน method update
         
         Monster mon = null;
+        double multiple = (Math.pow(percent, playing.getWave().getCurrentWave() - 1));
         switch (name) {
             case "Dr_Parkarn":
-                mon = new Dr_Parkarn(ModeMultiple);
+                mon = new Dr_Parkarn(multiple);
                 break;
 
             // make another name case for create new monster object

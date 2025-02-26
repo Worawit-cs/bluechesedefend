@@ -66,6 +66,7 @@ public class HeroManager {
                 System.out.println("Not Found in HeroManager");
             break;
         }
+        System.out.println("Born w" + playing.getPlayer().getUpgrade(h.getTier()));
         h.upgradeATKAmount(playing.getPlayer().getUpgrade(h.getTier()));
         
         // หาที่ให้ hero อยู่

@@ -10,7 +10,5 @@ public class Mage extends Hero {
         super.loadAnimations(2, 6, 64);
     }
 
-    public void upgrade(){
-        super.getInfo().upgradeATK();
-    }
+    
 }

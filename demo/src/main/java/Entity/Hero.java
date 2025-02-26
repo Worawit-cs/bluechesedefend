@@ -49,11 +49,11 @@ public class Hero {
     }
 
     public void upgradeATK(){
-        info.upgradeATK();
+        info.upgradeATK(Amount);
     }
 
     public void upgradeATKAmount(int N){
-        info.upgradeATKAmount(N);
+        info.upgradeATKAmount(N, Amount);
     }
 
     public void setPosition(float x, float y){
@@ -106,7 +106,7 @@ public class Hero {
             findTarget();
             //System.out.println("Change " + Name );
         }
-
+        System.out.println(info.getATK());
         if (target != null){target.takeDamage(info.getATK()); Stage = "Attack";}
     }
 
@@ -244,14 +244,14 @@ class HeroInfo
         this.SumATK = ATK * Amount;
     }
 
-    public void upgradeATK(){
+    public void upgradeATK(int Amount){
         ATK = ATK * 2;
-        System.out.println("Upgrade ATK to " + ATK);
+        setATK(Amount);
     }
 
-    public void upgradeATKAmount(int UpgradeNum){
-        ATK = ATK * UpgradeNum;
-        System.out.println("Summon with Upgrade ATK to " + ATK);
+    public void upgradeATKAmount(int UpgradeNum, int Amount){
+        ATK = ATK * (int)Math.pow(2,UpgradeNum-1);
+        setATK(Amount);
     }
 
     public String[] getReward(){
