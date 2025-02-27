@@ -23,7 +23,7 @@ public class Wave {
     private boolean isBossSpawn = false;
 
     private boolean showTime = false;
-    private int bossTimeLimit, breakTime = 20; //(Sec)
+    private int bossTimeLimit, breakTime = 15; //(Sec)
     private long tick, timeleft;
     
     public Wave(Playing playing){
@@ -32,7 +32,7 @@ public class Wave {
         this.monsterManager = playing.getMonsterManager();
 
         waveText = new CustomFont("/Font/number.ttf", 1130, 85, 1, 55f, false);
-        timeText = new CustomFont("/Font/number.ttf", 500, 686,1,20f,false);
+        timeText = new CustomFont("/Font/number.ttf", 410, 100,2,20f,false);
         monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
         maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
         setMode();

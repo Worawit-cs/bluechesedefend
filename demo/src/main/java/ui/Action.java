@@ -26,8 +26,12 @@ public class Action {
     private Player player;
     private RandomHero randomHero;
 
-    private CustomFont coinText,gemText;
-    private ImageButton SpinHeroButton, BinButton, UpgradeButton, LuckySpinButton, UpgradeNormal, UpgradeEpic, UpgradeLegendary;
+    private CustomFont coinText, gemText, coinCost, gemCost, upNCost, upECost, upLCost;
+
+    private ImageButton SpinHeroButton, BinButton, UpgradeButton, 
+    LuckySpinButton, UpgradeNormal, UpgradeEpic, UpgradeLegendary;
+
+    private int intcoinCost = 10, intgemCost = 1;
 
     public Action(Playing playing){
         this.playing = playing;
@@ -50,6 +54,12 @@ public class Action {
 
         coinText = new CustomFont("/Font/number.ttf", 970, 686,1,20f,false);
         gemText = new CustomFont("/Font/number.ttf", 1097, 686,1,20f,false);
+
+        coinCost = new CustomFont("/Font/number.ttf", 1045, 510,1,20f,false);
+        gemCost = new CustomFont("/Font/number.ttf", 1045, 636,1,20f,false);
+        upNCost = new CustomFont("/Font/number.ttf", 910, 325,2,12f,false);
+        upECost = new CustomFont("/Font/number.ttf", 1045, 328,2,12f,false);
+        upLCost = new CustomFont("/Font/number.ttf", 1185, 328,2,12f,false);
         // hero[0] = new Hero(count, x, y, 0);
         
         UpgradeNormal = new ImageButton("/Assets/Botton_up.png", 884, 335, 70, 40, 100, 66);
@@ -71,7 +81,11 @@ public class Action {
         
         coinText.draw(G,String.valueOf(player.getCoin()));
         gemText.draw(G, String.valueOf(player.getGem()));
-
+        coinCost.draw(G, String.valueOf(intcoinCost));
+        gemCost.draw(G, String.valueOf(intgemCost));
+        upNCost.draw(G, String.valueOf(player.getCost("Common")));
+        upECost.draw(G, String.valueOf(player.getCost("Epic")));
+        upLCost.draw(G, String.valueOf(player.getCost("Legendary")));
         // g.drawString(""+coin,x,y);
     }
 
@@ -102,9 +116,16 @@ public class Action {
 
         if(SpinHeroButton.getBounds().contains(x,y)){
             SpinHeroButton.setMouseClick(true);
-            if(player.isEnough("Coin", 10) && !playing.getHeroManager().isHeroFull()){ 
-                player.decreaseValue("Coin", 10);
-                randomHero.randomAllWeight(); 
+            if(player.isEnough("Coin", intcoinCost) && !playing.getHeroManager().isHeroFull()){ 
+                player.decreaseValue("Coin", intcoinCost);
+                randomHero.randomAllWeight("Coin"); 
+            }
+
+        } else if(LuckySpinButton.getBounds().contains(x,y)){
+            LuckySpinButton.setMouseClick(true);
+            if(player.isEnough("Gem", intgemCost) && !playing.getHeroManager().isHeroFull()){
+                player.decreaseValue("Gem", intgemCost);
+                randomHero.randomAllWeight("Gem");
             }
 
         } else if (BinButton.getBounds().contains(x,y)){
@@ -113,26 +134,20 @@ public class Action {
         } else if (UpgradeButton.getBounds().contains(x,y)){
             changeStage("Upgrade", x, y);
             
-        } else if(LuckySpinButton.getBounds().contains(x,y)){
-            LuckySpinButton.setMouseClick(true);
-            if(player.isEnough("Gem", 1)){
-                player.decreaseValue("Gem", 1);
-                randomHero.randomAllWeight();
-            }
 
         } else if(UpgradeNormal.getBounds().contains(x,y)){
             UpgradeNormal.setMouseClick(true);
-            if(player.isEnough("Coin", player.getUpgrade("Common") * 50)){
+            if(player.isEnough("Coin", player.getCost("Common"))){
                 UpgradeAllHero("Common");
             }
         } else if(UpgradeEpic.getBounds().contains(x,y)){
             UpgradeEpic.setMouseClick(true);
-            if(player.isEnough("Coin", player.getUpgrade("Epic") * 50)){
+            if(player.isEnough("Coin", player.getCost("Epic"))){
                 UpgradeAllHero("Epic");
             }
         } else if(UpgradeLegendary.getBounds().contains(x,y)){
             UpgradeLegendary.setMouseClick(true);
-            if(player.isEnough("Coin", player.getUpgrade("Legendary") * 50)){   
+            if(player.isEnough("Coin", player.getCost("Legendary"))){   
                 UpgradeAllHero("Legendary");
             }
         } else {

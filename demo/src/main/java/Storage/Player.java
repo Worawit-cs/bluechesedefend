@@ -3,16 +3,18 @@ package Storage;
 import Scenes.Playing;
 
 public class Player {
-    private int coin, gem, wave;
+    private int coin, gem;
     private Playing playing;
     private double commonWeight, rareWeight, epicWeight, legendaryWeight;
-    private int UpgradeNormal = 1, UpgradeEpic = 1,UpgradeLegendary = 1;
+    private int UpgradeNormal = 0, UpgradeEpic = 0,UpgradeLegendary = 0,
+        normalCost = 50, epicCost = 50, legendaryCost = 50;    // starter cost;
+        // increase cost rate at line 57.
 
     public Player(Playing playing){
         this.playing = playing;
 
         coin = 1000; // Starter value
-        gem = 0;
+        gem = 10;
 
         commonWeight = 80; // Starter luck weight
         rareWeight = 10;
@@ -34,27 +36,51 @@ public class Player {
 
     }
 
+    public int getCost(String Tier){
+        switch (Tier) {
+            case "Epic":
+                return epicCost;
+            
+            case "Legendary":
+                return legendaryCost;
+
+            default:
+                return normalCost;
+        }
+    }
+
     public void UpgradeHero(String Tier){
         switch (Tier) {
             case "Common":
                 UpgradeNormal++;
-                decreaseValue("Coin", UpgradeNormal * 50);
+                decreaseValue("Coin", normalCost);
+                normalCost += 50; // increase cost rate
                 break;
 
             case "Epic":
                 UpgradeEpic++;
-                decreaseValue("Coin", UpgradeEpic * 50);
+                decreaseValue("Coin", epicCost);
+                epicCost += 50; // increase cost rate
                 break;
             
             case "Legendary":
                 UpgradeLegendary++;
-                decreaseValue("Coin", UpgradeLegendary * 50);
+                decreaseValue("Coin", legendaryCost);
+                legendaryCost += 50; // increase cost rate
                 break;
         }
     }
 
-    public double getTotalWeight(){
-        return commonWeight + rareWeight + epicWeight + legendaryWeight;
+    public double getTotalWeight(String type){
+        switch (type) {
+            case "Coin":
+                return commonWeight + rareWeight;
+        
+            case "Gem":
+                return epicWeight + legendaryWeight;
+        }
+
+        return 0;
     }
 
     public double getWeight(String rarity){
@@ -98,7 +124,7 @@ public class Player {
     public void increaseValue(String value, int x){
         switch (value) {
             case "Coin":
-                coin = this.coin + x; // avoid less than 0
+                coin = this.coin + x;
                 break;
         
             case "Gem":

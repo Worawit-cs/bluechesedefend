@@ -50,15 +50,29 @@ public class RandomHero {
         Icons[3] = loader.loadMap("/Assets/Icon/icon_legendary.png");
     }
 
-    public void randomAllWeight(){
-        double rate = random.nextDouble((player.getTotalWeight()+1) * 100) / 100; // คูณ หาร 100 เพื่อทำให้เป็นทศนิยม
+    public void randomAllWeight(String type){
+        double rate = random.nextDouble((player.getTotalWeight(type)+1) * 100) / 100; // คูณ หาร 100 เพื่อทำให้เป็นทศนิยม
         double weight = 0;
         System.out.println(rate);
 
-        for (int i = 0; i < 4; i++){
-            weight += player.getWeight(rarityList[i]);
+        int i, maxI;
+        switch (type) {
+            case "Coin":
+                i = 0;
+                maxI = 2;
+                break;
+        
+            default:
+            // Gem case
+                i = 2;
+                maxI = 4;
+                break;
+        }
 
-            if (rate <= weight){randomHero(rarityList[i]); break;}
+        for (int x = i; x < maxI; x++){
+            weight += player.getWeight(rarityList[x]);
+
+            if (rate <= weight){randomHero(rarityList[x]); break;}
         }
     }
 
