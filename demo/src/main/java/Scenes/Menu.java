@@ -11,39 +11,45 @@ import javax.imageio.ImageIO;
 import com.example.Game;
 import com.example.GameScreen;
 
+import Stages.Loader;
+
 import static com.example.GameStates.*;
 import ui.Button;
+import ui.ImageButton;
 
 public class Menu extends GameScene implements SceneMethods{
 
     private BufferedImage Img;
+    private Loader loader;
     private ArrayList<BufferedImage> Assets = new ArrayList<>(); //เก็บไฟล์รูปภาพหลายๆอันได้
 
-    private Button PlayButton, SettingButton, QuitButton;
+    private ImageButton PlayButton, QuitButton;
     public Menu(Game game) {
         super(game);
-        importImg("/Assets/BG.png");
+        loader = new Loader();
+        Img = loader.loadMap("/Assets/BG_main_manu.png");
+        // importImg("/Assets/BG.png");
         initButtons();
     }
 
     public void initButtons(){
         int w = 200;
         int h = 75;
-        PlayButton = new Button("Play",640 - (int)w/2,210 - (int)h/2,w,h);
-        SettingButton = new Button("Setting",640 - (int)w/2,360 - (int)h/2,w,h);
-        QuitButton = new Button("Quit", 640 - (int)w/2,510 - (int)h/2 , w ,h);
+        
+        PlayButton = new ImageButton("/Assets/Botton_start.png", 540, 350, 200, 81, 400, 162);
+        QuitButton = new ImageButton("/Assets/Botton_quit.png", 540, 460, 200, 81, 400, 162);
 
     }   
 
     @Override
     public void render(Graphics G, GameScreen screen){
         //G.drawImage(Img ,0 ,0 ,null); // background for menu
+        G.drawImage(Img, 0, 0,screen.getWidth(),screen.getHeight(), screen);
         drawButtons(G);
     }
 
     private void drawButtons(Graphics G){
         PlayButton.draw(G);
-        SettingButton.draw(G);
         QuitButton.draw(G);
     }
 
@@ -67,9 +73,6 @@ public class Menu extends GameScene implements SceneMethods{
         if(PlayButton.getBounds().contains(x,y)){
             SetGameState(MODE);
         }
-        else if(SettingButton.getBounds().contains(x,y)){
-            SetGameState(SETTINGS);
-        }
         else if(QuitButton.getBounds().contains(x,y)){
             System.exit(0);
         }
@@ -78,13 +81,9 @@ public class Menu extends GameScene implements SceneMethods{
     @Override
     public void mouseMoved(int x, int y) {
         PlayButton.setMouseOver(false);
-        SettingButton.setMouseOver(false);
         QuitButton.setMouseOver(false);
         if(PlayButton.getBounds().contains(x,y)){
             PlayButton.setMouseOver(true);
-        }
-        else if(SettingButton.getBounds().contains(x,y)){
-            SettingButton.setMouseOver(true);
         }
         else if(QuitButton.getBounds().contains(x,y)){
             QuitButton.setMouseOver(true);

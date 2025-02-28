@@ -1,32 +1,42 @@
 package Scenes;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.rmi.server.LoaderHandler;
 
 import com.example.Game;
 import com.example.GameScreen;
 
+import Stages.Loader;
+
 import static com.example.GameStates.*;
 
 import ui.Button;
+import ui.ImageButton;
 
 public class Mode extends GameScene implements SceneMethods{
 
     private Game game;
-    private Button Normal,Hard,BacktoMenu;
+    private ImageButton Normal,Hard,BacktoMenu;
+    private Loader loader;
+    private BufferedImage Img;
 
     public Mode(Game game) {
         super(game);
         this.game = game;
-
+        loader = new Loader();
+        Img = loader.loadMap("/Assets/BG_main_manu.png");
         int w = 200;
         int h = 75;
-        Normal = new Button("Normal",440 - (int)w/2,360 - (int)h/2,w,h);
-        Hard = new Button("Hard",840 - (int)w/2,360 - (int)h/2,w,h);
-        BacktoMenu = new Button("Back",30,30, w ,h);
+
+        Normal = new ImageButton("/Assets/Botton_normal.png", 340, 328, 200, 81, 400, 162);
+        Hard = new ImageButton("/Assets/Botton_hard.png", 740, 328, 200, 81, 400, 162);
+        BacktoMenu = new ImageButton("/Assets/Botton_back.png", 30, 30, 200, 81, 400, 162);
     }
 
     @Override
     public void render(Graphics G, GameScreen screen){
+        G.drawImage(Img, 0, 0,screen.getWidth(),screen.getHeight(), screen);
         Normal.draw(G);
         Hard.draw(G);
         BacktoMenu.draw(G);
