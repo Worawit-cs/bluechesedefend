@@ -28,6 +28,8 @@ public class Wave {
     
     public Wave(Playing playing){
         this.playing = playing;
+        setMode();
+
         this.randomMonster = new RandomMonster(playing);
         this.monsterManager = playing.getMonsterManager();
 
@@ -35,11 +37,14 @@ public class Wave {
         timeText = new CustomFont("/Font/number.ttf", 410, 100,2,20f,false);
         monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
         maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
-        setMode();
     }
 
     public int getCurrentWave(){
         return CurrentWave;
+    }
+
+    public int getBossSpawnFreq(){
+        return bossSpawnFreq;
     }
 
     private void setMode(){
@@ -98,9 +103,9 @@ public class Wave {
                 isBossSpawn = true;
                 
                 timeText.changeColor(2);
-                randomMonster.spawnRandom("Boss");
+                randomMonster.spawnBoss();
             } else{
-                randomMonster.spawnRandom("Monster");
+                randomMonster.spawnMonster();
             }
 
             if (monsterManager.getAmount() == MaxMon){ playing.end("Lose"); }

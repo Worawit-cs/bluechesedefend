@@ -250,7 +250,7 @@ class HeroInfo
     }
 
     public void upgradeATKAmount(int UpgradeNum, int Amount){
-        ATK = ATK * (int)Math.pow(2,UpgradeNum-1);
+        ATK = ATK * (int)Math.pow(2,UpgradeNum);
         setATK(Amount);
     }
 

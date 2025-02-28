@@ -6,7 +6,7 @@ public class Player {
     private int coin, gem;
     private Playing playing;
     private double commonWeight, rareWeight, epicWeight, legendaryWeight;
-    private int UpgradeNormal = 0, UpgradeEpic = 0,UpgradeLegendary = 0,
+    private int UpgradeNormal = 0, UpgradeEpic = 0, UpgradeLegendary = 0,
         normalCost = 50, epicCost = 50, legendaryCost = 50;    // starter cost;
         // increase cost rate at line 57.
 

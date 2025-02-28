@@ -31,7 +31,7 @@ public class Action {
     private ImageButton SpinHeroButton, BinButton, UpgradeButton, 
     LuckySpinButton, UpgradeNormal, UpgradeEpic, UpgradeLegendary;
 
-    private int intcoinCost = 10, intgemCost = 1;
+    private int intcoinCost = 10, intgemCost = 2;
 
     public Action(Playing playing){
         this.playing = playing;
