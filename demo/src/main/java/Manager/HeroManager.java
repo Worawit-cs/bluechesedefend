@@ -6,10 +6,9 @@ import java.awt.Rectangle;
 
 import com.example.GameScreen;
 
-import Entity.Folk;
+import Entity.Worrior;
 import Entity.Hero;
 import Entity.Mage;
-import Entity.New;
 import Scenes.Playing;
 
 /* how to add new hero to the game 
@@ -50,16 +49,36 @@ public class HeroManager {
         amountHero++;
         Hero h = null;
         switch (Name) {
-            case "New":
-            h = new New();
+            case "Mage_common":
+            h = new Mage("Common","/Assets/Hero/Static_Movement/Mage_idle_common.png","/Assets/Hero/Dynamic_Motion/Mage_Attack_common.png");
             break;
             
-            case "Folk":
-            h = new Folk();
+            case "Mage_rare":
+            h = new Mage("Rare","/Assets/Hero/Static_Movement/Mage_idle_rare.png","/Assets/Hero/Dynamic_Motion/Mage_Attack_rare.png");
             break;
-
-            case "Mage":
-            h = new Mage();
+            
+            case "Mage_epic":
+            h = new Mage("Epic","/Assets/Hero/Static_Movement/Mage_idle_epic.png","/Assets/Hero/Dynamic_Motion/Mage_Attack_epic.png");
+            break;
+            
+            case "Mage_legend":
+            h = new Mage("Legendary","/Assets/Hero/Static_Movement/Mage_idle.png","/Assets/Hero/Dynamic_Motion/Mage_Attack.png");
+            break;
+            
+            case "Worrior_common":
+            h = new Worrior("Common","/Assets/Hero/Static_Movement/Warrior_idle_common.png","/Assets/Hero/Dynamic_Motion/Warrior_Attack_common.png");
+            break;
+            
+            case "Worrior_rare":
+            h = new Worrior("Rare","/Assets/Hero/Static_Movement/Warrior_idle_rare.png","/Assets/Hero/Dynamic_Motion/Warrior_Attack_rare.png");
+            break;
+            
+            case "Worrior_epic":
+            h = new Worrior("Epic","/Assets/Hero/Static_Movement/Warrior_idle_epic.png","/Assets/Hero/Dynamic_Motion/Warrior_Attack_epic.png");
+            break;
+            
+            case "Worrior_legend":
+            h = new Worrior("Legendary","/Assets/Hero/Static_Movement/Warrior_idle_legendary.png","/Assets/Hero/Dynamic_Motion/Warrior_Attack_legendary.png");
             break;
 
             default:
