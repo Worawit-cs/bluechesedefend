@@ -28,15 +28,14 @@ public class Wave {
     
     public Wave(Playing playing){
         this.playing = playing;
-        setMode();
-
         this.randomMonster = new RandomMonster(playing);
         this.monsterManager = playing.getMonsterManager();
-
+        
         waveText = new CustomFont("/Font/number.ttf", 1130, 85, 1, 55f, false);
         timeText = new CustomFont("/Font/number.ttf", 410, 100,2,20f,false);
         monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
         maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
+        setMode();
     }
 
     public int getCurrentWave(){

@@ -9,17 +9,12 @@ import Stages.Wave;
 public class RandomMonster {
     private Random random;
     private Playing playing;
-    private Wave wave;
 
     private MonsterManager monsterManager;
     private String[] Monster, Boss;
 
-    private int bossfreq;
-
     public RandomMonster(Playing playing){
         this.playing = playing;
-        this.wave = playing.getWave();
-        this.bossfreq = wave.getBossSpawnFreq();
 
         random = new Random();
         monsterManager = playing.getMonsterManager();
@@ -36,7 +31,8 @@ public class RandomMonster {
     }
     
     public void spawnBoss(){
-        int bossIndex = (wave.getCurrentWave()/bossfreq)%Boss.length;
+        Wave wave = playing.getWave();
+        int bossIndex = (wave.getCurrentWave()/wave.getBossSpawnFreq())%Boss.length;
         monsterManager.spawn(Boss[bossIndex]);
     }
 }
