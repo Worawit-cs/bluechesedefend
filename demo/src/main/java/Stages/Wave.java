@@ -32,7 +32,7 @@ public class Wave {
         this.monsterManager = playing.getMonsterManager();
         
         waveText = new CustomFont("/Font/number.ttf", 1130, 85, 1, 55f, false);
-        timeText = new CustomFont("/Font/number.ttf", 410, 100,2,20f,false);
+        timeText = new CustomFont("/Font/number.ttf", 410, 100,1,20f,false);
         monsText = new CustomFont("/Font/number.ttf", 1014, 153, 2,17f,true);
         maxMonsText = new CustomFont("/Font/number.ttf", 1064, 153, 2, 17f, false);
         setMode();
@@ -100,7 +100,7 @@ public class Wave {
 
             if (CurrentWave % bossSpawnFreq == 0 && AlreadySpawn == MaxMonPerWave - 1){
                 isBossSpawn = true;
-                
+                System.out.print("Boss");
                 timeText.changeColor(2);
                 randomMonster.spawnBoss();
             } else{

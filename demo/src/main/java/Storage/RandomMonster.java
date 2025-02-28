@@ -19,8 +19,9 @@ public class RandomMonster {
         random = new Random();
         monsterManager = playing.getMonsterManager();
 
-        Monster = new String[]{"Dr_Parkarn"};
-        Boss = new String[]{"Dr_Parkarn"}; // boss order.
+        Monster = new String[]{"Jerr", "Toi", "Slime", "Lion", "Krarok"};
+        Boss = new String[]{"Dr_Samerkae", "Dr_Parkarn", "Dr_Kittipitch", 
+            "Benjamas", "Dr_Kamonphop", "Dr_Matinee"}; // boss order.
     }
 
     public void spawnMonster(){
