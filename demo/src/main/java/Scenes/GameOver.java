@@ -12,11 +12,12 @@ import com.example.GameScreen;
 import Stages.Loader;
 import ui.Button;
 import ui.CustomFont;
+import ui.ImageButton;
 
 public class GameOver extends GameScene implements SceneMethods {
     private Game game;
     private CustomFont ModeText;
-    private Button Replay;
+    private ImageButton Replay, NormalMode, HardMode;
     private Loader loader = new Loader();
     private BufferedImage BG,Victory,Lose;
 
@@ -27,32 +28,44 @@ public class GameOver extends GameScene implements SceneMethods {
     }
     
     public void initButtons(){
-        int w = 200;
-        int h = 75;
+
         BG = loader.loadMap("/Assets/BG_main_manu.png");
         Victory = loader.loadMap("/Assets/Victory.png");
         Lose = loader.loadMap("/Assets/Lose.png");
-        Replay = new Button("Replay",640 - (int)w/2,400 - (int)h/2,w,h);
+
+        NormalMode = new ImageButton("/Assets/Botton_normal.png", 565, 280,
+         150, 51, 400, 162);
+        HardMode = new ImageButton("/Assets/Botton_hard.png", 565, 280, 
+        150, 51, 400, 162);
+
+        Replay = new ImageButton("/Assets/Botton_retry.png", 
+        540, 400, 200, 81, 400, 162);
     }   
 
     @Override
     public void render(Graphics G, GameScreen screen) {
         G.drawImage(BG, 0, 0,screen.getWidth(),screen.getHeight(), screen);
         Replay.draw(G);
-        
+
         // congratText
         if(game.getPlaying().isWin()){
-            G.drawImage(Victory, 640 - 435, 200 - 135, 870, 270, null);
+            G.drawImage(Victory, 205, 65, 870, 270, null);
         }else{
-            G.drawImage(Lose, 640 - 435, 200 - 135, 870, 270, null);
+            G.drawImage(Lose, 205, 65, 870, 270, null);
         }
 
-        // ModeText.draw(G, game.getPlaying().getMode());
+        // ModeText
+        if (game.getPlaying().getMode() == "Normal"){
+            NormalMode.draw(G);
+        } else {
+            HardMode.draw(G);
+        }
     }
 
     @Override
     public void mouseClicked(int x, int y) {
         if (Replay.getBounds().contains(x, y)){
+            Replay.setMouseClick(true);
             SetGameState(MENU);
         }
     }

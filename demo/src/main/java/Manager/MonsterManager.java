@@ -5,18 +5,7 @@ import java.util.ArrayList;
 
 import com.example.GameScreen;
 
-import Entity.Benjamas;
-import Entity.Dr_Kanmonphop;
-import Entity.Dr_Kittipitch;
-import Entity.Dr_Matinee;
-import Entity.Dr_Parkarn;
-import Entity.Dr_Samerkae;
-import Entity.Jerr;
-import Entity.Krarok;
-import Entity.Lion;
-import Entity.Monster;
-import Entity.Slime;
-import Entity.Toi;
+import Entity.*;
 import Scenes.Playing;
 
 /*

@@ -6,15 +6,7 @@ import java.awt.Rectangle;
 
 import com.example.GameScreen;
 
-import Entity.Warrior_common;
-import Entity.Warrior_epic;
-import Entity.Warrior_legendary;
-import Entity.Warrior_rare;
-import Entity.Hero;
-import Entity.Mage_common;
-import Entity.Mage_epic;
-import Entity.Mage_legendary;
-import Entity.Mage_rare;
+import Entity.*;
 import Scenes.Playing;
 
 /* how to add new hero to the game 

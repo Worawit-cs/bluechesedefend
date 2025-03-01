@@ -14,7 +14,6 @@ import com.example.GameScreen;
 import Stages.Loader;
 
 import static com.example.GameStates.*;
-import ui.Button;
 import ui.ImageButton;
 
 public class Menu extends GameScene implements SceneMethods{
@@ -51,21 +50,6 @@ public class Menu extends GameScene implements SceneMethods{
     private void drawButtons(Graphics G){
         PlayButton.draw(G);
         QuitButton.draw(G);
-    }
-
-
-    private void importImg(String path){
-
-        InputStream is = getClass().getResourceAsStream(path);
-        
-        try {
-            // โหลดภาพจากไฟล์
-            Img = ImageIO.read(is); 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error: Cannot load map image.");
-        }
-    
     }
 
     @Override
