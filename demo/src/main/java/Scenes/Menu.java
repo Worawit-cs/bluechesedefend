@@ -3,8 +3,6 @@ package Scenes;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import java.util.ArrayList;
-
 import com.example.Game;
 import com.example.GameScreen;
 

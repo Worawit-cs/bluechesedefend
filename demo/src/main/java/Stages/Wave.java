@@ -98,7 +98,7 @@ public class Wave {
 
         if (AlreadySpawn < MaxMonPerWave && System.currentTimeMillis() - tick >= 20000 / MaxMonPerWave){
             tick = System.currentTimeMillis();
-
+            
             if (CurrentWave % bossSpawnFreq == 0 && AlreadySpawn == MaxMonPerWave - 1){
                 isBossSpawn = true;
                 System.out.print("Boss");
