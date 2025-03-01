@@ -31,7 +31,7 @@ public class Action {
     private ImageButton SpinHeroButton, BinButton, UpgradeButton, 
     LuckySpinButton, UpgradeNormal, UpgradeEpic, UpgradeLegendary;
 
-    private int intcoinCost = 10, intgemCost = 2;
+    private double intcoinCost = 10, intgemCost = 2;
 
     public Action(Playing playing){
         this.playing = playing;
@@ -57,9 +57,9 @@ public class Action {
 
         coinCost = new CustomFont("/Font/number.ttf", 1045, 510,1,20f,false);
         gemCost = new CustomFont("/Font/number.ttf", 1045, 636,1,20f,false);
-        upNCost = new CustomFont("/Font/number.ttf", 910, 325,2,12f,false);
-        upECost = new CustomFont("/Font/number.ttf", 1045, 328,2,12f,false);
-        upLCost = new CustomFont("/Font/number.ttf", 1185, 328,2,12f,false);
+        upNCost = new CustomFont("/Font/number.ttf", 910, 325,2,12f,true);
+        upECost = new CustomFont("/Font/number.ttf", 1045, 328,2,12f,true);
+        upLCost = new CustomFont("/Font/number.ttf", 1185, 328,2,12f,true);
         // hero[0] = new Hero(count, x, y, 0);
         
         UpgradeNormal = new ImageButton("/Assets/Botton_up.png", 884, 335, 70, 40, 100, 66);
@@ -81,8 +81,8 @@ public class Action {
         
         coinText.draw(G,String.valueOf(player.getCoin()));
         gemText.draw(G, String.valueOf(player.getGem()));
-        coinCost.draw(G, String.valueOf(intcoinCost));
-        gemCost.draw(G, String.valueOf(intgemCost));
+        coinCost.draw(G, String.valueOf((int) intcoinCost));
+        gemCost.draw(G, String.valueOf((int) intgemCost));
         upNCost.draw(G, String.valueOf(player.getCost("Common")));
         upECost.draw(G, String.valueOf(player.getCost("Epic")));
         upLCost.draw(G, String.valueOf(player.getCost("Legendary")));
@@ -116,15 +116,16 @@ public class Action {
 
         if(SpinHeroButton.getBounds().contains(x,y)){
             SpinHeroButton.setMouseClick(true);
-            if(player.isEnough("Coin", intcoinCost) && !playing.getHeroManager().isHeroFull()){ 
-                player.decreaseValue("Coin", intcoinCost);
+            if(player.isEnough("Coin", (int) intcoinCost) && !playing.getHeroManager().isHeroFull()){ 
+                player.decreaseValue("Coin", (int) intcoinCost);
+                intcoinCost += (intcoinCost * 0.05);
                 randomHero.randomAllWeight("Coin"); 
             }
 
         } else if(LuckySpinButton.getBounds().contains(x,y)){
             LuckySpinButton.setMouseClick(true);
-            if(player.isEnough("Gem", intgemCost) && !playing.getHeroManager().isHeroFull()){
-                player.decreaseValue("Gem", intgemCost);
+            if(player.isEnough("Gem", (int) intgemCost) && !playing.getHeroManager().isHeroFull()){
+                player.decreaseValue("Gem", (int) intgemCost);
                 randomHero.randomAllWeight("Gem");
             }
 

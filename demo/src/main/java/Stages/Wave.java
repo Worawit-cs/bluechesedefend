@@ -23,7 +23,7 @@ public class Wave {
     private boolean isBossSpawn = false;
 
     private boolean showTime = false;
-    private int bossTimeLimit, breakTime = 15; //(Sec)
+    private int bossTimeLimit, breakTime = 3; //(Sec)
     private long tick, timeleft;
     
     public Wave(Playing playing){
@@ -50,10 +50,10 @@ public class Wave {
         switch (playing.getMode()) {
             case "Normal":
                 MaxMon = 100; // condition to lose
-                MaxWave = 50;
-                MaxMonPerWave = 10; // first Wave
+                MaxWave = 90;
+                MaxMonPerWave = 20; // first Wave
                 increaseRate = 5; // เพิ่มจำนวน MaxMon ตามจำนวน increaseRate
-                RateFreq = 1; // เพิ่มจำนวน MaxMon ทุกๆ กี่เวฟ
+                RateFreq = 5; // เพิ่มจำนวน MaxMonperwave ทุกๆ กี่เวฟ
 
                 bossTimeLimit = 120;
                 bossSpawnFreq = 5; // boss spawn every ... wave
@@ -61,10 +61,10 @@ public class Wave {
         
             case "Hard":
                 MaxMon = 90;
-                MaxWave = 55;
-                MaxMonPerWave = 15; // first Wave
+                MaxWave = 90;
+                MaxMonPerWave = 30; // first Wave
                 increaseRate = 10;
-                RateFreq = 1;
+                RateFreq = 5;
 
                 bossTimeLimit = 60;
                 bossSpawnFreq = 5;
@@ -82,6 +82,7 @@ public class Wave {
         }
 
         CurrentWave++;
+        playing.getPlayer().increaseValue("Coin", (int) (playing.getPlayer().getCoin() * 0.1)); //เพิ่มเงินตามเวฟ
         AlreadySpawn = 0;
         
         if (CurrentWave % RateFreq == 0){MaxMonPerWave += increaseRate;}
@@ -95,7 +96,7 @@ public class Wave {
 
     public void update(){
 
-        if (AlreadySpawn < MaxMonPerWave && System.currentTimeMillis() - tick >= 500){
+        if (AlreadySpawn < MaxMonPerWave && System.currentTimeMillis() - tick >= 20000 / MaxMonPerWave){
             tick = System.currentTimeMillis();
 
             if (CurrentWave % bossSpawnFreq == 0 && AlreadySpawn == MaxMonPerWave - 1){
@@ -126,7 +127,7 @@ public class Wave {
             }else {
                 timeleft = (breakTime*1000) - (System.currentTimeMillis() - tick);
                 
-                if (timeleft <= 10000){
+                if (timeleft <= 3000){
                     showTime = true;
                 }
             }

@@ -13,8 +13,8 @@ public class Player {
     public Player(Playing playing){
         this.playing = playing;
 
-        coin = 1000; // Starter value
-        gem = 10;
+        coin = 100; // Starter value
+        gem = 0;
 
         commonWeight = 80; // Starter luck weight
         rareWeight = 10;
@@ -54,19 +54,19 @@ public class Player {
             case "Common":
                 UpgradeNormal++;
                 decreaseValue("Coin", normalCost);
-                normalCost += 50; // increase cost rate
+                normalCost = (int) Math.floor((normalCost * 1.5)); // increase cost rate
                 break;
 
             case "Epic":
                 UpgradeEpic++;
                 decreaseValue("Coin", epicCost);
-                epicCost += 50; // increase cost rate
+                epicCost = (int) Math.floor(epicCost * 1.5); // increase cost rate
                 break;
             
             case "Legendary":
                 UpgradeLegendary++;
                 decreaseValue("Coin", legendaryCost);
-                legendaryCost += 50; // increase cost rate
+                legendaryCost = (int) Math.floor(legendaryCost * 1.5); // increase cost rate
                 break;
         }
     }

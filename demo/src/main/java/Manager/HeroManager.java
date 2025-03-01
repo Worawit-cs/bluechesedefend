@@ -39,7 +39,7 @@ public class HeroManager {
     private Rectangle[][] boundTable = new Rectangle[row][column];
     private int boundWidth = 78; // ความกว้างของแต่ละ cell
     private int boundHeight = 120; // ความสูงของแต่ละ cell
-    private int xStart = 182, yStart = 176; // cell แรกจะเริ่มที่
+    private int xStart = 186, yStart = 176; // cell แรกจะเริ่มที่
     private int xEnd = (xStart + (boundWidth*column)), yEnd = (yStart + (boundHeight*row)); // cell สุดท้ายจบที่
 
     public HeroManager(Playing playing){

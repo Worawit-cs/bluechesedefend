@@ -106,7 +106,7 @@ public class Hero {
             findTarget();
             //System.out.println("Change " + Name );
         }
-        System.out.println(info.getATK());
+        // System.out.println(info.getATK());
         if (target != null){target.takeDamage(info.getATK()); Stage = "Attack";}
     }
 
@@ -229,15 +229,16 @@ public class Hero {
 class HeroInfo
 {
     public HeroInfo(int ATK, int Radius, float SPA, String reward){
-        this.ATK = ATK;
-        this.SumATK = ATK;
+        this.ATK = (double) ATK;
+        this.SumATK = (double) ATK;
         this.Radius = Radius;
         this.reward = reward.split("_");
         this.SPA = SPA * 1000; // millisec to sec
     }
 
     private String[] reward;
-    private int ATK, SumATK , Radius;
+    private int Radius;
+    private Double ATK, SumATK;
     private float SPA;
 
     public void setATK(int Amount){
@@ -245,7 +246,7 @@ class HeroInfo
     }
 
     public void upgradeATK(int Amount){
-        ATK = ATK * 2;
+        ATK = ATK * 1.7;
         setATK(Amount);
     }
 
@@ -263,7 +264,7 @@ class HeroInfo
         return Radius;
     }
     
-    public int getATK(){
+    public Double getATK(){
         return SumATK;
     }
 

@@ -4,17 +4,21 @@ import static com.example.GameStates.MENU;
 import static com.example.GameStates.SetGameState;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import com.example.Game;
 import com.example.GameScreen;
 
+import Stages.Loader;
 import ui.Button;
 import ui.CustomFont;
 
 public class GameOver extends GameScene implements SceneMethods {
     private Game game;
-    private CustomFont CongratText, ModeText;
+    private CustomFont ModeText;
     private Button Replay;
+    private Loader loader = new Loader();
+    private BufferedImage BG,Victory,Lose;
 
     public GameOver(Game game){
         super(game);
@@ -25,25 +29,25 @@ public class GameOver extends GameScene implements SceneMethods {
     public void initButtons(){
         int w = 200;
         int h = 75;
-        CongratText = new CustomFont("/Font/number.ttf", 500, 300,3,25f,false);
-        ModeText = new CustomFont("/Font/number.ttf", 500, 330,2,25f,false);
-        Replay = new Button("Replay",640 - (int)w/2,210 - (int)h/2,w,h);
+        BG = loader.loadMap("/Assets/BG_main_manu.png");
+        Victory = loader.loadMap("/Assets/Victory.png");
+        Lose = loader.loadMap("/Assets/Lose.png");
+        Replay = new Button("Replay",640 - (int)w/2,400 - (int)h/2,w,h);
     }   
 
     @Override
     public void render(Graphics G, GameScreen screen) {
+        G.drawImage(BG, 0, 0,screen.getWidth(),screen.getHeight(), screen);
         Replay.draw(G);
         
         // congratText
         if(game.getPlaying().isWin()){
-            CongratText.changeColor(3);
-            CongratText.draw(G, "VICTORY");
+            G.drawImage(Victory, 640 - 435, 200 - 135, 870, 270, null);
         }else{
-            CongratText.changeColor(2);
-            CongratText.draw(G, "LOSE");
+            G.drawImage(Lose, 640 - 435, 200 - 135, 870, 270, null);
         }
 
-        ModeText.draw(G, game.getPlaying().getMode());
+        // ModeText.draw(G, game.getPlaying().getMode());
     }
 
     @Override

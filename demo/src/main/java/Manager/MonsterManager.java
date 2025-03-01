@@ -113,7 +113,7 @@ public class MonsterManager {
                 System.out.println("Not Found in MonsterManager");
                 break;
         }
-
+        System.out.println("Spawn Monster With " + mon.getHealth() + " HP" );
         monsters.add(mon);
     }
 

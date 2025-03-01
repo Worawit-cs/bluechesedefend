@@ -63,6 +63,7 @@ public class Monster {
         
     }
 
+    public double getHealth(){ return info.GetHealth(); }
     public String[] getReward(){ return info.GetReward(); }
     public String getType(){ return info.GetType(); }
     public Vector2D getPos(){ return position; }
@@ -73,7 +74,7 @@ public class Monster {
         return info.GetHealth() > 0;
     }
 
-    public void takeDamage(int Damage){
+    public void takeDamage(double Damage){
        info.DecreaseHealth(Damage);
        Stage = "Damaged";
     }
@@ -167,7 +168,7 @@ class EntityInfo
         Health = Math.min(Health, MaxHealth);
     }
 
-    public void DecreaseHealth(int value){
+    public void DecreaseHealth(double value){
         Health -= value;
         Health = Math.max(Health, 0);
     }
