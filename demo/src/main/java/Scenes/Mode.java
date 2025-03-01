@@ -2,7 +2,6 @@ package Scenes;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.rmi.server.LoaderHandler;
 
 import com.example.Game;
 import com.example.GameScreen;
@@ -11,7 +10,6 @@ import Stages.Loader;
 
 import static com.example.GameStates.*;
 
-import ui.Button;
 import ui.ImageButton;
 
 public class Mode extends GameScene implements SceneMethods{
@@ -26,8 +24,6 @@ public class Mode extends GameScene implements SceneMethods{
         this.game = game;
         loader = new Loader();
         Img = loader.loadMap("/Assets/BG_main_manu.png");
-        int w = 200;
-        int h = 75;
 
         Normal = new ImageButton("/Assets/Botton_normal.png", 340, 328, 200, 81, 400, 162);
         Hard = new ImageButton("/Assets/Botton_hard.png", 740, 328, 200, 81, 400, 162);

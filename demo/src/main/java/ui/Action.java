@@ -57,9 +57,9 @@ public class Action {
 
         coinCost = new CustomFont("/Font/number.ttf", 1045, 510,1,20f,false);
         gemCost = new CustomFont("/Font/number.ttf", 1045, 636,1,20f,false);
-        upNCost = new CustomFont("/Font/number.ttf", 910, 325,2,12f,true);
-        upECost = new CustomFont("/Font/number.ttf", 1045, 328,2,12f,true);
-        upLCost = new CustomFont("/Font/number.ttf", 1185, 328,2,12f,true);
+        upNCost = new CustomFont("/Font/number.ttf", 902, 325,2,12f,true);
+        upECost = new CustomFont("/Font/number.ttf", 1037, 328,2,12f,true);
+        upLCost = new CustomFont("/Font/number.ttf", 1177, 328,2,12f,true);
         // hero[0] = new Hero(count, x, y, 0);
         
         UpgradeNormal = new ImageButton("/Assets/Botton_up.png", 884, 335, 70, 40, 100, 66);

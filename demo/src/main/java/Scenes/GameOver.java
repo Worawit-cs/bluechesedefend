@@ -33,9 +33,9 @@ public class GameOver extends GameScene implements SceneMethods {
         Victory = loader.loadMap("/Assets/Victory.png");
         Lose = loader.loadMap("/Assets/Lose.png");
 
-        NormalMode = new ImageButton("/Assets/Botton_normal.png", 565, 280,
+        NormalMode = new ImageButton("/Assets/Botton_normal.png", 565, 265,
          150, 51, 400, 162);
-        HardMode = new ImageButton("/Assets/Botton_hard.png", 565, 280, 
+        HardMode = new ImageButton("/Assets/Botton_hard.png", 565, 265, 
         150, 51, 400, 162);
 
         Replay = new ImageButton("/Assets/Botton_retry.png", 

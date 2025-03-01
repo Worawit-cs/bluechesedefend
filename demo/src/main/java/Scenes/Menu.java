@@ -2,11 +2,8 @@ package Scenes;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
 
 import com.example.Game;
 import com.example.GameScreen;
@@ -20,7 +17,6 @@ public class Menu extends GameScene implements SceneMethods{
 
     private BufferedImage Img;
     private Loader loader;
-    private ArrayList<BufferedImage> Assets = new ArrayList<>(); //เก็บไฟล์รูปภาพหลายๆอันได้
 
     private ImageButton PlayButton, QuitButton;
     public Menu(Game game) {
@@ -32,8 +28,6 @@ public class Menu extends GameScene implements SceneMethods{
     }
 
     public void initButtons(){
-        int w = 200;
-        int h = 75;
         
         PlayButton = new ImageButton("/Assets/Botton_start.png", 540, 350, 200, 81, 400, 162);
         QuitButton = new ImageButton("/Assets/Botton_quit.png", 540, 460, 200, 81, 400, 162);
