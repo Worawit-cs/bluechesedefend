@@ -22,7 +22,7 @@ public class Menu extends GameScene implements SceneMethods{
     public Menu(Game game) {
         super(game);
         loader = new Loader();
-        Img = loader.loadMap("/Assets/BG_main_manu.png");
+        Img = loader.loadMap("/Assets/BG_main_manu1.png");
         // importImg("/Assets/BG.png");
         initButtons();
     }
