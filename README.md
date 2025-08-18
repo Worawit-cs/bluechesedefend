@@ -1,1 +1,1 @@
-This is CS project about Gaming by using Object Orented Programming(OOP) concept.
+This is CS(Year 1) project about Gaming by using Object Orented Programming(OOP) concept.
